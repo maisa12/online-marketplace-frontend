@@ -5,7 +5,9 @@ import {
     Typography, 
     Toolbar,
     Button,
+    Link
   } from '@material-ui/core';
+
 
 export default function Header(){
   return (
@@ -14,7 +16,7 @@ export default function Header(){
     <Typography variant="h4" style={{flexGrow: 1}}>
       ONLINE-MARKETPLACE
     </Typography>
-    <Button color="inherit">Login</Button>
+    <Link href="/panel" color="inherit" underline="none"><Button color="inherit">Login</Button></Link>
   </Toolbar>
 </AppBar>
   );

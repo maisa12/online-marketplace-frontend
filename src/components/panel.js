@@ -1,75 +1,65 @@
 import React, { useState } from 'react';
 import '../App.css';
 import {
-    Group,
-    Category,
-    CollectionsBookmark
-} from '@material-ui/icons';
-import {
     Paper, 
-    Grid, 
-    ListItemText, 
-    ListItemIcon, 
-    ListItem, 
-    List, 
-    ListSubheader
+    Grid
   } from '@material-ui/core';
-  import UserTable from './panelComponents/userTable';
-  import IconButton from '@material-ui/core/IconButton';
-  import GroupAddIcon from '@material-ui/icons/GroupAdd';
-  import PostAddIcon from '@material-ui/icons/PostAdd';
-  import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+  import PanelTable from './panelComponents/table';
+  import AdminNav from './panelComponents/adminNav';
+  import NewAd from './panelComponents/newAd';
+  import NewUser from './panelComponents/newUser';
+  import NewCat from './panelComponents/newCat';
 
 export default function Panel(){
-  
+  const [openad, setOpenAd] = React.useState(false);
+
+  const handleClickOpenAd = () => {
+    setOpenAd(true);
+  };
+
+  const handleCloseAd = () => {
+    setOpenAd(false);
+  };
+  const [opencat, setOpenCat] = React.useState(false);
+
+  const handleClickOpenCat = () => {
+    setOpenCat(true);
+  };
+
+  const handleCloseCat = () => {
+    setOpenCat(false);
+  };
+  const [openuser, setOpenUser] = React.useState(false);
+
+  const handleClickOpenUser= () => {
+    setOpenUser(true);
+  };
+
+  const handleCloseUser = () => {
+    setOpenUser(false);
+  };
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const handleListItemClick = (event, index) => {
+        setSelectedIndex(index);
+      };
   return (
+    <span>
     <Grid container spacing={1} justify="center">
         <Grid item xs={3}>
           <Paper>
-          <List
-                component="nav"
-                aria-labelledby="admin-panel"
-                 subheader={
-        <ListSubheader component="div" id="admin-panel">
-          Admin panel
-        </ListSubheader>
-      }> 
-     <ListItem button>
-        <ListItemIcon>
-          <Group />
-        </ListItemIcon>
-        <ListItemText primary="მომხმარებლები" />
-        <IconButton aria-label="add user" >
-    <GroupAddIcon  fontSize="small" />
-  </IconButton>
-      </ListItem>
-      <ListItem button>
-      <ListItemIcon>
-          <Category />
-        </ListItemIcon>
-        <ListItemText primary="კატეგორიები" />
-        <IconButton aria-label="add category" >
-            <PlaylistAddIcon  fontSize="small" />
-        </IconButton>
-      </ListItem>
-      <ListItem button>
-      <ListItemIcon>
-          <CollectionsBookmark/>
-        </ListItemIcon>
-        <ListItemText primary="განცხადებები" />
-        <IconButton aria-label="add advertisement" >
-    <PostAddIcon  fontSize="small" />
-  </IconButton>
-        
-      </ListItem>
-    </List>
+              <AdminNav handleListItemClick={handleListItemClick} selectedIndex={selectedIndex} handleClickOpenAd = {handleClickOpenAd} handleClickOpenCat = {handleClickOpenCat} handleClickOpenUser = {handleClickOpenUser}/>
+             
           </Paper>
         </Grid>
         <Grid item xs={8}>
           <Paper>
-                <UserTable/>
+            <PanelTable selectedIndex={selectedIndex}/>
+            <NewAd handleClose = {handleCloseAd} open = {openad}/>
+              <NewUser handleClose = {handleCloseUser} open = {openuser}/>
+              <NewCat handleClose = {handleCloseCat} open = {opencat}/>  
           </Paper>
         </Grid>
     </Grid>
+    </span>
   );
 }
