@@ -5,25 +5,47 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 export default function NewCat({handleClose, open}) {
-  const [value, setValue] = useState({name: '', position: 0, slug: ''})
+  const [value, setValue] = useState({name: '', position: 0, slug: ''});
+  const [message, setMessage] = useState('');
+  const validation = (e)=>{
+    if(e==="both") {
+      return setMessage('slug და პოზიცია დაკავებულია')
+    }
+    if(e==="position"){
+      return setMessage('პოზიცია დაკავებულია')
+   }
+    if(e==="slug"){
+      return setMessage('slug დაკავებულია')
+   }
+   update() 
+   }
   
   const add = async()=>{
-    console.log(value)
     await fetch(`http://localhost:8000/add/category`, {
      method: 'POST',
      headers: {
        'Content-Type': 'application/json'
      },
      body: JSON.stringify(value)
-   }).catch((error)=>{console.log(error)}) 
-   handleClose(); 
+   }).then(e=>e.text()).then(e=>validation(e)).catch((error)=>{console.log(error)}) 
+ };
+
+
+ const update = () => {
+  handleClose();
+  setValue({name: '', position: 0, slug: ''});
+  setMessage('')
  }
   return (
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={open} onClose={update} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">კატეგორიის დამატება</DialogTitle>
         <DialogContent>
+        <DialogContentText color='error'>
+          {message}
+          </DialogContentText>
         <TextField
               autoFocus
               margin="dense"
@@ -60,7 +82,7 @@ export default function NewCat({handleClose, open}) {
             />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={update} color="primary">
             დახურვა
           </Button>
           <Button onClick={add} color="primary">

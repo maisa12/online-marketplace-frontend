@@ -12,11 +12,26 @@ import {
 
 export default function Panel(){
   const [openad, setOpenAd] = React.useState(false);
-
+  const [val, setVal] = useState([])
+  const categories = async()=>{
+    const request = await fetch(`http://localhost:8000/category`)
+    const array = await request.json();
+    setVal(array);
+   };
+   // author
+  const [aut, setAut] = useState([]);
+  const authors = async()=>{
+    const request = await fetch(`http://localhost:8000/authors`)
+    const array = await request.json();
+    setAut(array);
+   };
+  //
   const handleClickOpenAd = () => {
     setOpenAd(true);
+    categories();
+    authors();
   };
-
+  
   const handleCloseAd = () => {
     setOpenAd(false);
   };
@@ -54,7 +69,7 @@ export default function Panel(){
         <Grid item xs={8}>
           <Paper>
             <PanelTable selectedIndex={selectedIndex}/>
-            <NewAd handleClose = {handleCloseAd} open = {openad}/>
+            <NewAd handleClose = {handleCloseAd} open = {openad} val={val}  aut={aut}/>
               <NewUser handleClose = {handleCloseUser} open = {openuser}/>
               <NewCat handleClose = {handleCloseCat} open = {opencat}/>  
           </Paper>
