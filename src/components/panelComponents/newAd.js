@@ -37,7 +37,7 @@ export default function NewAd({handleClose, open, val, aut}) {
       if(x===false) count++;
       }
     if(count===4){
-      console.log(count)
+     
     await fetch(`http://localhost:8000/add/ad`, {
      method: 'POST',
      headers: {
@@ -136,7 +136,7 @@ export default function NewAd({handleClose, open, val, aut}) {
             required
         >
           <MenuItem value="other">სხვა</MenuItem>
-          {val.map(x=>(<MenuItem value={x.slug} key={x.id}>{x.name}</MenuItem>))}
+          {val.map(x=>(<MenuItem value={x.name} key={x.id}>{x.name}</MenuItem>))}
         </Select>
       </FormControl>
            

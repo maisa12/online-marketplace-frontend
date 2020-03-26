@@ -97,7 +97,7 @@ export default function PanelTable({selectedIndex, openAd, openCat, openUser}){
           minWidth: '20%',
         },
         {
-          id: 'categories.name',
+          id: 'category',
           label: 'კატეგორია',
           minWidth: '20%',
           align: 'right'
@@ -110,8 +110,9 @@ export default function PanelTable({selectedIndex, openAd, openCat, openUser}){
           }
       ]);
       const request = await fetch(`http://localhost:8000/ads`);
-      const array = await request.json();
-      setRows(array)
+      const adsArray = await request.json();
+      adsArray.forEach(x=>x.author=x['users.author'].split("%")[0]+" "+x['users.author'].split("%")[1]);
+      setRows(adsArray)
     }
    
     const handleChangePage = (event, newPage) => {
@@ -160,8 +161,8 @@ export default function PanelTable({selectedIndex, openAd, openCat, openUser}){
                   {columns.map(column => {
                     var value = row[column.id];
                     if(typeof value==="boolean"){
-                      if(value){value="აქტიურ"}
-                      else{value="არა აქტიური"}
+                      if(value){value="აქტიური"}
+                      else{value="ინაქტივირებული"}
                     }
                     return (
                       <TableCell key={column.id} align={column.align}>
