@@ -68,7 +68,7 @@ export default function Panel(){
         </Grid>
         <Grid item xs={8}>
           <Paper>
-            <PanelTable selectedIndex={selectedIndex}/>
+            <PanelTable selectedIndex={selectedIndex} openAd={openad} openCat={opencat} openUser={openuser}/>
             <NewAd handleClose = {handleCloseAd} open = {openad} val={val}  aut={aut}/>
               <NewUser handleClose = {handleCloseUser} open = {openuser}/>
               <NewCat handleClose = {handleCloseCat} open = {opencat}/>  

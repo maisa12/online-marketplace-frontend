@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
         Table, 
         TableBody, 
@@ -12,20 +12,43 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditeIcon from '@material-ui/icons/Edit';
 
-export default function PanelTable({selectedIndex}){
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [columns, setColumns] = React.useState([]);
-    const [rows, setRows] = React.useState([]);
+export default function PanelTable({selectedIndex, openAd, openCat, openUser}){
+    const [page, setPage] = useState(0);
+    const [updateAd, setUpdateAd] = useState(null);
+    const [updateCat, setUpdateCat] = useState(null);
+    const [updateUser, setUpdateUser] = useState(null);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [columns, setColumns] = useState([]);
+    const [rows, setRows] = useState([]);
       useEffect(()=>{
         if(selectedIndex===0)user();
         if(selectedIndex===2)category();
         if(selectedIndex===1)ads();
       },[selectedIndex]);
-
-    function user(){
-      setColumns([{ id: 'name', label: 'სახელი', minWidth: '20%' },
-      { id: 'lastName', label: 'გვარი', minWidth: '25%' },
+     useEffect(()=>{
+       const u = openAd;
+       setUpdateAd(u);
+       const s =updateAd;
+       if(s===true){
+        ads()
+      }
+      },[openAd])
+      useEffect(()=>{
+        setUpdateCat(openCat);
+        if(updateCat===true){
+          category()
+       }
+       },[openCat])
+       useEffect(()=>{
+        setUpdateUser(openUser);
+        if(updateUser===true){
+         user()
+       }
+       },[openUser])
+     
+   async function user(){
+      setColumns([{ id: 'name', label: 'სახელი/გვარი', minWidth: '20%' },
+      { id: 'number', label: 'მობილურის ნომერი', minWidth: '25%' },
       {
         id: 'email',
         label: 'ელ-ფოსტა',
@@ -43,36 +66,38 @@ export default function PanelTable({selectedIndex}){
           minWidth: '20%',
           align: 'right',
         }]);
-        setRows([
-          { name: 'gio', lastName: 'giushkebi', email: "sss@gmail.com", status: "admin", id: 5}
-        ]);
+        const request = await fetch(`http://localhost:8000/users`);
+        const userArray = await request.json();
+        userArray.forEach(x=>x.name=x.name.split("%")[0]+" "+x.name.split("%")[1]);
+        setRows(userArray);
     }
-    function category(){
+    async function  category(){
       setColumns([
         { id: 'name', label: 'კატეგორია', minWidth: '20%' },
-        { id: 'amount', label: 'ოდენობა', minWidth: '25%' },
+        { id: 'slug', label: 'Slug', minWidth: '25%' },
+        { id: 'position', label: 'პოზიცია', minWidth: '25%' },
         {
           id: 'edition',
           label: 'რედაქტირება',
-          minWidth: '20%',
+          minWidth: '30%',
           align: 'right',
         }
       ]);
-      setRows([
-        { name: 'gio', amount: 'giushkebi'}
-      ]);
+      const request = await fetch(`http://localhost:8000/categories`);
+      const array = await request.json();
+      setRows(array)
     }
-    function ads(){
+    async function ads(){
       setColumns([
         { id: 'name', label: 'განცხადება', minWidth: '20%' },
-        { id: 'status', label: 'სტატუსი', minWidth: '25%' },
+        { id: 'active', label: 'სტატუსი', minWidth: '20%' },
         {
           id: 'author',
           label: 'ავტორი',
-          minWidth: '35%',
+          minWidth: '20%',
         },
         {
-          id: 'category',
+          id: 'categories.name',
           label: 'კატეგორია',
           minWidth: '20%',
           align: 'right'
@@ -84,9 +109,9 @@ export default function PanelTable({selectedIndex}){
             align: 'right',
           }
       ]);
-      setRows([
-        { name: 'gio', status: 'active', author: "giushkebii", category: "category"}
-      ])
+      const request = await fetch(`http://localhost:8000/ads`);
+      const array = await request.json();
+      setRows(array)
     }
    
     const handleChangePage = (event, newPage) => {
@@ -133,7 +158,11 @@ export default function PanelTable({selectedIndex}){
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
                   {columns.map(column => {
-                    const value = row[column.id];
+                    var value = row[column.id];
+                    if(typeof value==="boolean"){
+                      if(value){value="აქტიურ"}
+                      else{value="არა აქტიური"}
+                    }
                     return (
                       <TableCell key={column.id} align={column.align}>
                         {value}

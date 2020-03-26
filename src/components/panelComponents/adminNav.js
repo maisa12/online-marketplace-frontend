@@ -40,8 +40,8 @@ export default function AdminNav({handleListItemClick, selectedIndex, handleClic
 </IconButton>
 </ListItem>
 <ListItem button  
-        selected={selectedIndex === 1}
-        onClick={event => handleListItemClick(event, 1)}>
+        selected={selectedIndex === 2}
+        onClick={event => handleListItemClick(event, 2)}>
 <ListItemIcon>
   <Category />
 </ListItemIcon>
@@ -51,8 +51,8 @@ export default function AdminNav({handleListItemClick, selectedIndex, handleClic
 </IconButton>
 </ListItem>
 <ListItem button  
-        selected={selectedIndex === 2}
-        onClick={event => handleListItemClick(event, 2)}>
+        selected={selectedIndex === 1}
+        onClick={event => handleListItemClick(event, 1)}>
 <ListItemIcon>
   <CollectionsBookmark/>
 </ListItemIcon>
