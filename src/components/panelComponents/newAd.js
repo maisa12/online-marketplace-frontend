@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,58 +11,20 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 
-export default function NewAd({handleClose, open, val, aut}) {
-  const [nameError, setNameError] = useState(null);
-  const [pictureError, setPictureError] = useState(null);
-  const [descriptionError, setdescriptionError] = useState(null);
-  const [priceError, setPriceError] = useState(null);
-  const [message, setMessage] = useState('');
-  const [value, setValue] = useState({name: '', category: 'other', author: '', description: '', picture:'', active: 'false', price: '0'});
-  const update = ()=>{
-    setNameError(null);
-    setPictureError(null);
-    setdescriptionError(null);
-    setPriceError(null);
-    handleClose();
-    setMessage('');
-    setValue({name: '', category: 'other', author: '', description: '', picture:'', active: 'false', price:''});
-   }
-   const cantAdd = () =>{
-    return setMessage("ვერ მოხდა განცხადების დამატება")
-  }
-  const add = async()=>{
-    var count = 0;
-    const array = [descriptionError, nameError, pictureError, priceError];
-    for(let x of array){
-      if(x===false) count++;
-      }
-    if(count===4){
-     
-    await fetch(`http://localhost:8000/add/ad`, {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify(value)
-   }).then(e=>e.text()).then(e=>e==="true"?update():cantAdd()).catch((error)=>{console.log(error)})
-    
-  }
- }
+export default function NewAd({handleClose, adProps, value, setValue, val, aut, open}) {
+ const {dialogAut, adButton, nameError, setNameError, pictureError, setPictureError, descriptionError, setdescriptionError, priceError, setPriceError, message}= adProps;
   const handleChangeCategory = event => {
     setValue(prevState => {
       return { ...prevState, category: event.target.value}
-                     })
+                     });
   };
   const handleChangeActive = event => {
     setValue(prevState => {
       return { ...prevState, active: event.target.value}
                      })
   };
-  const handleChangeAuthor = event => {
-    setValue(prevState => {
-      return { ...prevState, author: event.target.value}
-                     })
-  };
+ 
+  
   const priceValidation = val => {
     const priceRegEx = /\d{1,}\.{1}\d{2}$/
          if(priceRegEx.test(val)){
@@ -108,8 +70,9 @@ export default function NewAd({handleClose, open, val, aut}) {
       setPictureError(true);
                       }
   }
+
   return (
-      <Dialog open={open} onClose={update} aria-labelledby="form-dialog-title">
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">განცხადების დამატება</DialogTitle>
         <DialogContent>
           <DialogContentText color='error'>
@@ -117,6 +80,7 @@ export default function NewAd({handleClose, open, val, aut}) {
           </DialogContentText>
           <TextField
             autoFocus
+            defaultValue={value.name}
             error = {nameError}
             margin="dense"
             label="სახელი"
@@ -134,13 +98,12 @@ export default function NewAd({handleClose, open, val, aut}) {
             value={value.category}
             onChange={handleChangeCategory}
             required
-        >
-          <MenuItem value="other">სხვა</MenuItem>
+        > 
           {val.map(x=>(<MenuItem value={x.name} key={x.id}>{x.name}</MenuItem>))}
         </Select>
       </FormControl>
-           
           <TextField
+            defaultValue={value.description}
             multiline
             rows="3"
             error = {descriptionError}
@@ -152,6 +115,7 @@ export default function NewAd({handleClose, open, val, aut}) {
             onChange={(e)=>descriptionValidation(e.target.value)}
           />
           <TextField
+          defaultValue={value.price}
            error = {priceError}
             margin="dense"
             label="ფასი"
@@ -161,6 +125,7 @@ export default function NewAd({handleClose, open, val, aut}) {
             onChange={(e)=>priceValidation(e.target.value)}
           />
           <TextField
+            defaultValue={value.picture}
             error = {pictureError}
             margin="dense"
             label="სურათი"
@@ -184,26 +149,13 @@ export default function NewAd({handleClose, open, val, aut}) {
           <MenuItem value="true">აქტიური</MenuItem>
         </Select>
       </FormControl>
-      <FormControl variant="filled" style={{width: "50%"}}>
-        <InputLabel id="demo-simple-select-filled-label">ავტორი</InputLabel>
-        <Select
-          labelId="demo-simple-select-filled-label"
-          id="demo-simple-select-filled"
-            value={value.author}
-            onChange={handleChangeAuthor}
-            required
-        >
-      {aut.map(x=>(<MenuItem value={x.id} key={x.id}>{x.name_lastname.split("%")[0]+" "+x.name_lastname.split("%")[1]}</MenuItem>))}
-        </Select>
-      </FormControl>
+     {dialogAut()}
         </DialogContent>
         <DialogActions>
-          <Button onClick={update} color="primary">
+          <Button onClick={handleClose} color="primary">
             დახურვა
           </Button>
-          <Button onClick={add} color="primary">
-            დამატება
-          </Button>
+          {adButton()}
         </DialogActions>
       </Dialog>
   );

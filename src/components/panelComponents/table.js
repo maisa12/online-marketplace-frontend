@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {
         Table, 
         TableBody, 
@@ -12,109 +12,10 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditeIcon from '@material-ui/icons/Edit';
 
-export default function PanelTable({selectedIndex, openAd, openCat, openUser}){
+export default function PanelTable({selectedIndex, columns, rows, adUpdate}){
     const [page, setPage] = useState(0);
-    const [updateAd, setUpdateAd] = useState(null);
-    const [updateCat, setUpdateCat] = useState(null);
-    const [updateUser, setUpdateUser] = useState(null);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [columns, setColumns] = useState([]);
-    const [rows, setRows] = useState([]);
-      useEffect(()=>{
-        if(selectedIndex===0)user();
-        if(selectedIndex===2)category();
-        if(selectedIndex===1)ads();
-      },[selectedIndex]);
-     useEffect(()=>{
-       const u = openAd;
-       setUpdateAd(u);
-       const s =updateAd;
-       if(s===true){
-        ads()
-      }
-      },[openAd])
-      useEffect(()=>{
-        setUpdateCat(openCat);
-        if(updateCat===true){
-          category()
-       }
-       },[openCat])
-       useEffect(()=>{
-        setUpdateUser(openUser);
-        if(updateUser===true){
-         user()
-       }
-       },[openUser])
      
-   async function user(){
-      setColumns([{ id: 'name', label: 'სახელი/გვარი', minWidth: '20%' },
-      { id: 'number', label: 'მობილურის ნომერი', minWidth: '25%' },
-      {
-        id: 'email',
-        label: 'ელ-ფოსტა',
-        minWidth: '35%',
-      },
-      {
-        id: 'status',
-        label: 'სტატუსი',
-        minWidth: '20%',
-        align: 'right'
-      },
-      {
-          id: 'edition',
-          label: 'რედაქტირება',
-          minWidth: '20%',
-          align: 'right',
-        }]);
-        const request = await fetch(`http://localhost:8000/users`);
-        const userArray = await request.json();
-        userArray.forEach(x=>x.name=x.name.split("%")[0]+" "+x.name.split("%")[1]);
-        setRows(userArray);
-    }
-    async function  category(){
-      setColumns([
-        { id: 'name', label: 'კატეგორია', minWidth: '20%' },
-        { id: 'slug', label: 'Slug', minWidth: '25%' },
-        { id: 'position', label: 'პოზიცია', minWidth: '25%' },
-        {
-          id: 'edition',
-          label: 'რედაქტირება',
-          minWidth: '30%',
-          align: 'right',
-        }
-      ]);
-      const request = await fetch(`http://localhost:8000/categories`);
-      const array = await request.json();
-      setRows(array)
-    }
-    async function ads(){
-      setColumns([
-        { id: 'name', label: 'განცხადება', minWidth: '20%' },
-        { id: 'active', label: 'სტატუსი', minWidth: '20%' },
-        {
-          id: 'author',
-          label: 'ავტორი',
-          minWidth: '20%',
-        },
-        {
-          id: 'category',
-          label: 'კატეგორია',
-          minWidth: '20%',
-          align: 'right'
-        },
-        {
-            id: 'edition',
-            label: 'რედაქტირება',
-            minWidth: '20%',
-            align: 'right',
-          }
-      ]);
-      const request = await fetch(`http://localhost:8000/ads`);
-      const adsArray = await request.json();
-      adsArray.forEach(x=>x.author=x['users.author'].split("%")[0]+" "+x['users.author'].split("%")[1]);
-      setRows(adsArray)
-    }
-   
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
       };
@@ -125,7 +26,7 @@ export default function PanelTable({selectedIndex, openAd, openCat, openUser}){
       const edition = (userId) =>{
           return (
         <span>
-        <IconButton aria-label="delete" >
+        <IconButton aria-label="delete" onClick={()=>adUpdate(userId)}>
         <EditeIcon fontSize="small" />
       </IconButton>
     <IconButton aria-label="delete" >
