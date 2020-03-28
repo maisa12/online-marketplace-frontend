@@ -12,7 +12,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditeIcon from '@material-ui/icons/Edit';
 
-export default function PanelTable({selectedIndex, columns, rows, adUpdate}){
+export default function PanelTable({selectedIndex, columns, rows, adUpdate, deleteItem}){
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
      
@@ -23,13 +23,13 @@ export default function PanelTable({selectedIndex, columns, rows, adUpdate}){
         setRowsPerPage(+event.target.value);
         setPage(0);
       };
-      const edition = (userId) =>{
+      const edition = (id) =>{
           return (
         <span>
-        <IconButton aria-label="delete" onClick={()=>adUpdate(userId)}>
+        <IconButton aria-label="delete" onClick={()=>adUpdate(id)}>
         <EditeIcon fontSize="small" />
       </IconButton>
-    <IconButton aria-label="delete" >
+    <IconButton aria-label="delete" onClick={()=>deleteItem(id)}>
     <DeleteIcon fontSize="small" />
   </IconButton>
   </span>

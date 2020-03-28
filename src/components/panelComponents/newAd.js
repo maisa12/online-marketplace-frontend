@@ -1,18 +1,21 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
+import {
+          Button, 
+          TextField,  
+          Dialog, 
+          DialogActions, 
+          DialogContent, 
+          DialogContentText, 
+          DialogTitle, 
+          Select, 
+          FormControl, 
+          MenuItem, 
+          InputLabel
+      }from '@material-ui/core';
+import {Authors} from './adsAuthor'
 
-export default function NewAd({handleClose, adProps, value, setValue, val, aut, open}) {
- const {dialogAut, adButton, nameError, setNameError, pictureError, setPictureError, descriptionError, setdescriptionError, priceError, setPriceError, message}= adProps;
+export default function NewAd({ adProps,  open,  adsButton}) {
+ const {edit, add, value, setValue, val, aut, handleClose, adButton, nameError, setNameError, pictureError, setPictureError, descriptionError, setdescriptionError, priceError, setPriceError, message} = adProps;
   const handleChangeCategory = event => {
     setValue(prevState => {
       return { ...prevState, category: event.target.value}
@@ -24,7 +27,6 @@ export default function NewAd({handleClose, adProps, value, setValue, val, aut, 
                      })
   };
  
-  
   const priceValidation = val => {
     const priceRegEx = /\d{1,}\.{1}\d{2}$/
          if(priceRegEx.test(val)){
@@ -60,6 +62,7 @@ export default function NewAd({handleClose, adProps, value, setValue, val, aut, 
                       }
   }
   const pictureValidation = (val) =>{
+    
     if(val.length>=5){
       setPictureError(false);
       setValue(prevState => {
@@ -70,7 +73,6 @@ export default function NewAd({handleClose, adProps, value, setValue, val, aut, 
       setPictureError(true);
                       }
   }
-
   return (
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">განცხადების დამატება</DialogTitle>
@@ -149,13 +151,13 @@ export default function NewAd({handleClose, adProps, value, setValue, val, aut, 
           <MenuItem value="true">აქტიური</MenuItem>
         </Select>
       </FormControl>
-     {dialogAut()}
+     {Authors(adsButton, value, aut, setValue)}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             დახურვა
           </Button>
-          {adButton()}
+          {adButton(adsButton, add, edit)}
         </DialogActions>
       </Dialog>
   );

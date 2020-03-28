@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,40 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
-export default function NewCat({handleClose, open}) {
-  const [value, setValue] = useState({name: '', position: 0, slug: ''});
-  const [message, setMessage] = useState('');
-  const validation = (e)=>{
-    if(e==="both") {
-      return setMessage('slug და პოზიცია დაკავებულია')
-    }
-    if(e==="position"){
-      return setMessage('პოზიცია დაკავებულია')
-   }
-    if(e==="slug"){
-      return setMessage('slug დაკავებულია')
-   }
-   update() 
-   }
-  
-  const add = async()=>{
-    await fetch(`http://localhost:8000/add/category`, {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify(value)
-   }).then(e=>e.text()).then(e=>validation(e)).catch((error)=>{console.log(error)}) 
- };
-
-
- const update = () => {
-  handleClose();
-  setValue({name: '', position: 0, slug: ''});
-  setMessage('')
- }
+export default function NewCat({handleClose, open, message, setValue, add, edit, adButton, catButton, value}) {
   return (
-      <Dialog open={open} onClose={update} aria-labelledby="form-dialog-title">
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">კატეგორიის დამატება</DialogTitle>
         <DialogContent>
         <DialogContentText color='error'>
@@ -48,6 +17,7 @@ export default function NewCat({handleClose, open}) {
           </DialogContentText>
         <TextField
               autoFocus
+              defaultValue={value.name}
               margin="dense"
               label="სახელი"
               style={{width: "500px"}}
@@ -59,6 +29,7 @@ export default function NewCat({handleClose, open}) {
               }}
             />
              <TextField
+             defaultValue={value.position}
               margin="dense"
               label="პოზიცია"
               style={{width: "500px"}}
@@ -70,6 +41,7 @@ export default function NewCat({handleClose, open}) {
               }}
             />
              <TextField
+             defaultValue={value.slug}
               margin="dense"
               label="Slug"
               style={{width: "500px"}}
@@ -82,12 +54,10 @@ export default function NewCat({handleClose, open}) {
             />
         </DialogContent>
         <DialogActions>
-          <Button onClick={update} color="primary">
+          <Button onClick={handleClose} color="primary">
             დახურვა
           </Button>
-          <Button onClick={add} color="primary">
-            დამატება
-          </Button>
+         {adButton(catButton, add, edit)}
         </DialogActions>
       </Dialog>
 

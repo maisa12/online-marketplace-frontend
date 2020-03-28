@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,53 +11,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
-export default function NewUser({handleClose, open}){
-  const [value, setValue] = useState({name: '', lastname: '', email: '', status: 'member', phoneNumber:'', password: ''});
-  const [phoneError, setPhoneError] = useState(null);
-  const [emailError, setEmailError] = useState(null);
-  const [pasError, setPasError] = useState(null);
-  const [passError, setPassError] = useState(null);
-  const [nameError, setNameError] = useState(null);
-  const [lnameError, setLnameError] = useState(null);
-  const [message, setMessage] = useState('');
-
+export default function NewUser({ open, usersProps, adsButton }){
   const phoneMessege = 'მაგ.:5********';
+  const  {add, edit, adButton, value, setValue, handleClose, message, phoneError, setPhoneError, emailError, setEmailError, pasError, setPasError, passError, setPassError, namesError, setNamesError, lnameError, setLnameError} = usersProps; 
   const handleChange = event => {
     setValue(prevState => {
       return { ...prevState, status: event.target.value}
                      })
   };
-  const emailexists = () =>{
-    return setMessage("მითითებული ელ-ფოსტით მომხმარებელი უკვე დარეგისტრირებულია")
-  }
-   const update = ()=>{
-    setPhoneError(null);
-    setEmailError(null);
-    setPasError(null);
-    setPassError(null);
-    setNameError(null);
-    setLnameError(null);
-    handleClose();
-    setMessage('');
-    setValue({name: '', lastname: '', email: '', status: 'member', phoneNumber:'', password: ''});
-   }
-  const add = async()=>{
-    var count = 0;
-    const array = [phoneError, emailError, pasError, passError, nameError, lnameError];
-    for(let x of array){
-      if(x===false) count++;
-      }
-    if(count===6){
-    await fetch(`http://localhost:8000/add/user`, {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify(value)
-   }).then(e=>e.text()).then(e=>e==="true"?update():emailexists()).catch((error)=>{console.log(error)})
-    
-  }
- }
+
   const phoneValidation = (val) =>{
       const phoneEx = /^5[\d+]{8}/;
       if(phoneEx.test(val) && val.length===9){
@@ -84,6 +46,7 @@ const emailValidation = (val) =>{
 }
 const pasValidation = (val) =>{
   const pasEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    
   if(pasEx.test(val)){
     setPasError(false);
     setValue(prevState => {
@@ -104,13 +67,13 @@ const passValidation = (val) =>{
 }
 const nameValidation = (val) =>{
   if(val.length>=3){
-    setNameError(false);
+    setNamesError(false);
     setValue(prevState => {
       return { ...prevState, name: val}
                        })
                     }
    else{
-    setNameError(true);
+    setNamesError(true);
                     }
 }
 const lnameValidation = (val) =>{
@@ -125,7 +88,7 @@ const lnameValidation = (val) =>{
                     }
 }
   return (
-      <Dialog open={open} onClose={update} aria-labelledby="form-dialog-title">
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">მომხმარებლის დამატება</DialogTitle>
         <DialogContent>
         <DialogContentText color='error'>
@@ -133,7 +96,8 @@ const lnameValidation = (val) =>{
           </DialogContentText>
           <TextField
             autoFocus
-            error = {nameError}
+            defaultValue={value.name}
+            error = {namesError}
             margin="dense"
             label="სახელი"
             style={{width: "50%"}}
@@ -142,6 +106,7 @@ const lnameValidation = (val) =>{
           />
           <TextField
             error = {lnameError}
+            defaultValue={value.lastname}
             margin="dense"
             label="გვარი"
             style={{width: "50%"}}
@@ -150,6 +115,7 @@ const lnameValidation = (val) =>{
           />
            <TextField
             error = {emailError}
+            defaultValue={value.email}
             margin="dense"
             label="ელ-ფოსტა"
             type="email"
@@ -158,6 +124,7 @@ const lnameValidation = (val) =>{
           />
            <TextField
             error = {phoneError}
+            defaultValue={value.phoneNumber}
             helperText = {phoneMessege}
             margin="dense"
             label="მობილურის ნომერი"
@@ -197,12 +164,10 @@ const lnameValidation = (val) =>{
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={update} color="primary">
+          <Button onClick={handleClose} color="primary">
             დახურვა
           </Button>
-          <Button onClick={add} color="primary" >
-            დამატება
-          </Button>
+          {adButton(adsButton, add, edit)}
         </DialogActions>
       </Dialog>
   );
