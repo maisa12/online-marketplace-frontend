@@ -9,8 +9,9 @@ import {
   import NewAd from './panelComponents/newAd';
   import NewUser from './panelComponents/newUser';
   import NewCat from './panelComponents/newCat';
-  import {ads, category, user} from './panelComponents/tableContent'
-  import {adButton} from './panelComponents/button'
+  import {ads, category, user} from './panelComponents/tableContent';
+  import {adButton} from './panelComponents/button';
+  import {categories} from './panelComponents/mainRequests';
 
 export default function Panel(){
   const [openad, setOpenAd] = useState(false);
@@ -46,7 +47,7 @@ const adUpdate = async(id) =>{
   const item = rows.filter(x=>x.id===id);
   if(selectedIndex===1){
   setValue(item[0]);
-  categories();
+  categories(setVal);
   authors();
   setOpenAd(true);
   }
@@ -111,11 +112,7 @@ if(selectedIndex===2){
       };
   //categories request
   const [val, setVal] = useState([])
-  const categories = async()=>{
-    const request = await fetch(`http://localhost:8000/category`)
-    const array = await request.json();
-    setVal(array);
-   };
+  
    //message
    const cantAdd = (e) =>{
     return setMessage(e)
@@ -146,7 +143,7 @@ if(selectedIndex===2){
   const handleClickOpenAd = () => {
     setValue({name: '', category: 'other', author: '', description: '', picture:'', active: 'false', price:''});
     setOpenAd(true);
-    categories();
+    categories(setVal);
     authors();
     setButton(true);
     adButton(button, add, edit);

@@ -52,7 +52,7 @@ async function user(setColumns, setRows){
         minWidth: '20%',
       },
       {
-        id: 'category',
+        id: 'categories.name',
         label: 'კატეგორია',
         minWidth: '20%',
         align: 'right'
@@ -66,7 +66,10 @@ async function user(setColumns, setRows){
     ]);
     const request = await fetch(`http://localhost:8000/ads`);
     const adsArray = await request.json();
-    adsArray.forEach(x=>x.author=x['users.author'].split("%")[0]+" "+x['users.author'].split("%")[1]);
+    adsArray.forEach(x=>{
+      x.author=x['users.author'].split("%")[0]+" "+x['users.author'].split("%")[1];
+
+    });
     setRows(adsArray)
   }
   export {ads, category, user}

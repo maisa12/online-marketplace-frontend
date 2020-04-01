@@ -101,7 +101,7 @@ export default function NewAd({ adProps,  open,  adsButton}) {
             onChange={handleChangeCategory}
             required
         > 
-          {val.map(x=>(<MenuItem value={x.name} key={x.id}>{x.name}</MenuItem>))}
+          {val.map(x=>(<MenuItem value={x.slug} key={x.id}>{x.name}</MenuItem>))}
         </Select>
       </FormControl>
           <TextField
