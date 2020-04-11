@@ -1,19 +1,32 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
-import Header from './components/header';
+
 import Panel from './components/panel';
 import Home from './components/home';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import Header from './components/header';
+
 function App() {
+  const [pageState, setPageState] = useState('home');
+  const [panelState, setPanelState] = useState(0); //panel state: guest = 0, member=1, admin=2 
+const site = (state)=> {
+  if(state==='home'){
+    return (
+      <Home/>
+  )
+  }
+ if(state==='panel'){
+   return(
+     <Panel panelState={panelState}/>
+   )
+ }
+}
+useEffect(()=>{
+  site(pageState)
+}, [pageState])
   return (
     <span>
-    <Header/>
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path="/panel" component={Panel}/>
-        </Switch>
-      </Router>
+        <Header setPageState={setPageState} setPanelState={setPanelState}/>
+        {site(pageState)}
       </span>
   );
 }
