@@ -11,7 +11,7 @@ import Login from './headerComponents/login';
 import Register from './headerComponents/register';
 import Loggedin from './headerComponents/loggedin';
 export default function Header({setPageState, setPanelState}){
-  let token = localStorage.getItem('JWT')
+  let token = localStorage.getItem('JWT');
   const [anchorEl, setAnchorEl] = useState(null);
   const [register, setRegister] = useState(false);
   const [loggedin, setLoggedin] = useState(false);

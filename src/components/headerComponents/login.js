@@ -5,7 +5,8 @@ import{
     InputLabel,
     Input,
     InputAdornment,
-    Menu
+    Menu,
+    Typography
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
@@ -14,7 +15,7 @@ export default function Login({loginProps}){
 const{handleClose,  anchorEl, handleClickOpenReg, setLoggedin, setName, menuFunction, setPanelState} = loginProps;
 const [email,  setEmail] = useState('');
 const [password,  setPassword] = useState('');
-
+const [message, setMessage] = useState('');
 var form = {email: email, password: password};
 const  loginRequest = async() => {
   var req = await fetch('http://localhost:8000/login', {
@@ -37,6 +38,10 @@ const  loginRequest = async() => {
           setPanelState(1); //set member status
         }
     }
+    else{
+      setMessage(response.message);
+      setTimeout(()=>{setMessage('')}, 4000);
+    }
 }
 return(
         <Menu
@@ -47,6 +52,10 @@ return(
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
+            <Typography variant="button" display="block"  color="error" gutterBottom>
+                {message}
+              </Typography>
+          
             <InputLabel htmlFor="email">მომხმარებლის ელ. ფოსტა</InputLabel>
             <Input
                 id="email"

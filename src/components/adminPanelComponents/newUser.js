@@ -33,7 +33,7 @@ export default function NewUser({ open, usersProps, adsButton }){
                         }
 }
 const emailValidation = (val) =>{
-  const emailEx = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+  const emailEx = /^[a-zA-Z0-9.]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
   if(emailEx.test(val)){
     setEmailError(false);
      setValue(prevState => {

@@ -75,7 +75,7 @@ const registerRequest = async() => {
                         }
 }
 const emailValidation = (val) =>{
-  const emailEx = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+  const emailEx = /^[a-zA-Z0-9.]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
   if(emailEx.test(val)){
     setEmailError(false);
      setValue(prevState => {
@@ -131,7 +131,7 @@ const lnameValidation = (val) =>{
 }
   return (
   <Dialog open={register} onClose={handleClose} aria-labelledby="form-dialog-title">
-    <DialogTitle id="form-dialog-title">მომხმარებლის დამატება</DialogTitle>
+    <DialogTitle id="form-dialog-title">მომხმარებლის რეგისტრაცია</DialogTitle>
       <DialogContent>
           <DialogContentText color='error'>
               {message}

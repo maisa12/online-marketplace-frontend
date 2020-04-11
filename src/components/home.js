@@ -74,7 +74,7 @@ const filter=()=>{
             <TextField
                 value={to}
                 autoComplete="off"
-                label="number"
+                label=""
                 type="number"
                 id="price_to"
                 InputProps={{

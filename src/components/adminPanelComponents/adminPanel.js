@@ -35,7 +35,8 @@ const edit = async()=>{
   await fetch(`http://localhost:8000/update/${endpoint}/${value.id}`,{
     method: 'put',
      headers: {
-      'Content-type': 'application/json; charset=UTF-8'
+      'Content-type': 'application/json; charset=UTF-8',
+        Authorization: `JWT ${localStorage.getItem('JWT')}`
      },
      body: JSON.stringify(value)
   }).then(e=>e.text()).then(e=>e==="success"?handleClose():cantAdd(e)).catch((error)=>{console.log(error)})
@@ -126,7 +127,8 @@ if(selectedIndex===2){
     await fetch(`http://localhost:8000/add/${endpoint}`, {
      method: 'POST',
      headers: {
-       'Content-Type': 'application/json'
+       'Content-Type': 'application/json',
+       Authorization: `JWT ${localStorage.getItem('JWT')}`
      },
      body: JSON.stringify(value)
    }).then(e=>e.text()).then(e=>e==="success"?handleClose():cantAdd(e)).catch((error)=>{console.log(error)})
@@ -135,7 +137,13 @@ if(selectedIndex===2){
    // author
   const [aut, setAut] = useState([]);
   const authors = async()=>{
-    const request = await fetch(`http://localhost:8000/authors`)
+    const request = await fetch(`http://localhost:8000/authors`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('JWT')}`
+      }
+   })
     const array = await request.json();
     setAut(array);
    };
@@ -192,7 +200,10 @@ if(selectedIndex===2){
     await fetch(`http://localhost:8000/delete/${endpoint}/${
       id}`,
     {
-      method:'delete'
+      method:'delete',
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('JWT')}`
+      }
     }).then(e=>console.log('deleted')).then(()=>handleClose()).catch((error)=>{console.log(error)})
   }
   

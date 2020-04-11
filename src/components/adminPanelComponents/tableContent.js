@@ -19,7 +19,14 @@ async function user(setColumns, setRows){
         minWidth: '20%',
         align: 'right',
       }]);
-      const request = await fetch(`http://localhost:8000/users`);
+      const request = await fetch(`http://localhost:8000/users`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('JWT')}`
+        }
+      }
+     );
       const userArray = await request.json();
       userArray.forEach(x=>x.name=x.name.split("%")[0]+" "+x.name.split("%")[1]);
       setRows(userArray);
@@ -37,7 +44,14 @@ async function user(setColumns, setRows){
         align: 'right',
       }
     ]);
-    const request = await fetch(`http://localhost:8000/categories`);
+    const request = await fetch(`http://localhost:8000/categories`, 
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('JWT')}`
+      }
+    }
+   );
     const array = await request.json();
     setRows(array)
   }
@@ -64,7 +78,14 @@ async function user(setColumns, setRows){
           align: 'right',
         }
     ]);
-    const request = await fetch(`http://localhost:8000/ads`);
+    const request = await fetch(`http://localhost:8000/ads`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('JWT')}`
+      }
+    }
+   );
     const adsArray = await request.json();
     adsArray.forEach(x=>{
       x.author=x['users.author'].split("%")[0]+" "+x['users.author'].split("%")[1];
