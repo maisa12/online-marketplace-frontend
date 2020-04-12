@@ -21,7 +21,7 @@ const changeState = (number) => {
   }
   else{
     return(
-      <h2>ar aris paneli</h2>
+      <h2>404 error</h2>
     )
   }
 }

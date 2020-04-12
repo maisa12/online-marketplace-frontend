@@ -18,6 +18,7 @@ const logOut = () => {
 }
 const goPanel = () =>{
     setPageState('panel');
+    handleClose();
 }
     return(
 <Menu
