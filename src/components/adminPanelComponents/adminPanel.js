@@ -39,7 +39,10 @@ const edit = async()=>{
         Authorization: `JWT ${localStorage.getItem('JWT')}`
      },
      body: JSON.stringify(value)
-  }).then(e=>e.text()).then(e=>e==="success"?handleClose():cantAdd(e)).catch((error)=>{console.log(error)})
+  })
+    .then(e=>e.text())
+    .then(e=>e==="success"?handleClose():cantAdd(e))
+    .catch((error)=>{console.log(error)})
   }
 }
   //add update
@@ -131,7 +134,10 @@ if(selectedIndex===2){
        Authorization: `JWT ${localStorage.getItem('JWT')}`
      },
      body: JSON.stringify(value)
-   }).then(e=>e.text()).then(e=>e==="success"?handleClose():cantAdd(e)).catch((error)=>{console.log(error)})
+   })
+    .then(e=>e.text())
+    .then(e=>e==="success"?handleClose():cantAdd(e))
+    .catch((error)=>{console.log(error)})
   }
  }
    // author

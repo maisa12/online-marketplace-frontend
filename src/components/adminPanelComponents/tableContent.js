@@ -44,14 +44,7 @@ async function user(setColumns, setRows){
         align: 'right',
       }
     ]);
-    const request = await fetch(`http://localhost:8000/categories`, 
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `JWT ${localStorage.getItem('JWT')}`
-      }
-    }
-   );
+    const request = await fetch(`http://localhost:8000/category`);
     const array = await request.json();
     setRows(array)
   }

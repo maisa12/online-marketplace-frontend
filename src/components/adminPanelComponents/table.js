@@ -15,7 +15,6 @@ import EditeIcon from '@material-ui/icons/Edit';
 export default function PanelTable({selectedIndex, columns, rows, adUpdate, deleteItem}){
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-     
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
       };
@@ -54,11 +53,10 @@ export default function PanelTable({selectedIndex, columns, rows, adUpdate, dele
           </TableHead>
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => {
-
                 const addEdit = Object.entries(item).concat([["edition", edition(item.id)]])
-               const row = Object.fromEntries(addEdit);
+                const row = Object.fromEntries(addEdit);
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {columns.map(column => {
                     var value = row[column.id];
                     if(typeof value==="boolean"){
