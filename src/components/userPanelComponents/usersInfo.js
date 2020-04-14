@@ -1,27 +1,47 @@
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-export default function UsersInfo({userInfo}){
-
+import React, {useState} from 'react';
+import {
+  IconButton,
+  Button,
+  Typography 
+} from '@material-ui/core';
+import EditeIcon from '@material-ui/icons/Edit';
+import ChangePassword from './changeInfo/changePassword';
+export default function UsersInfo({userInfo, handleOpenInfo}){
+    //state of changing password dialog
+    const [openPass, setOpenPass] = useState(false)
+    const handleClickOpenPass = () => {
+      setOpenPass(true);
+    }
+    const handleClosePass = () => {
+      setOpenPass(false);
+    }
     return(
         <div>
         <Typography variant="h5" gutterBottom>
-        მომხმარებლის ინფორმაცია
+        მომხმარებლის ინფორმაცია 
+        <IconButton aria-label="add category" onClick={()=>handleOpenInfo()} >
+            <EditeIcon fontSize="small" />
+        </IconButton>
       </Typography>
-      <Typography variant="button" display="block" gutterBottom>
+      <Typography variant="subtitle2" display="block" gutterBottom>
          სახელი: {userInfo.name.split("%")[0]}
       </Typography>
-      <Typography variant="button" display="block" gutterBottom>
+      <Typography variant="subtitle2" display="block" gutterBottom>
         გვარი: {userInfo.name.split("%")[1]}
       </Typography>
-      <Typography variant="button" display="block" gutterBottom>
+      <Typography variant="subtitle2" display="block" gutterBottom>
         ელფოსტა: {userInfo.email}
       </Typography>
-      <Typography variant="button" display="block" gutterBottom>
+      <Typography variant="subtitle2" display="block" gutterBottom>
         მობილურის ნომერი: {userInfo.phone}
       </Typography>
-      <Typography variant="button" display="block" gutterBottom>
+      <Typography variant="subtitle2" display="block" gutterBottom>
         სტატუსი:{userInfo.status}
       </Typography>
+      <Button variant="outlined" onClick={handleClickOpenPass} color="primary">
+        პაროლის შეცვლა
+      </Button>
+      <ChangePassword handleClosePass={handleClosePass} openPass={openPass}/>
       </div>
     )
 }

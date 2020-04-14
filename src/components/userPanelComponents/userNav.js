@@ -6,9 +6,9 @@ import {
     IconButton
   } from '@material-ui/core';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import EditeIcon from '@material-ui/icons/Edit';
+
 export default function UserNav({userNavProps}){
-    const {selectedIndex, handleListItemClick} = userNavProps;
+    const { selectedIndex, handleListItemClick, handleClickOpen} = userNavProps;
 return(
     <List component="nav" aria-label="main mailbox folders">
                     <ListItem 
@@ -17,7 +17,7 @@ return(
                             onClick={(event) => handleListItemClick(event, 0)}
                             >
                         <ListItemText primary="ჩემი სიახლეები" />
-                        <IconButton aria-label="add category" >
+                        <IconButton aria-label="add category" onClick={()=>handleClickOpen()}>
                             <PostAddIcon fontSize="small" />
                         </IconButton>
                     </ListItem>
@@ -27,9 +27,7 @@ return(
                             button
                             >
                         <ListItemText primary="პირადი ინფორმაცია" />
-                        <IconButton aria-label="add category" >
-                            <EditeIcon fontSize="small" />
-                        </IconButton>
+                        
                     </ListItem>
                 </List>
 )
