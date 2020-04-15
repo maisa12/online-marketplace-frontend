@@ -3,7 +3,7 @@ import '../App.css';
 import {
   Grid
 } from '@material-ui/core';
-import {categories, adRequest, selectCategory} from './mainComponents/mainRequests';
+import {categories, adRequest} from './mainComponents/mainRequests';
 import MainNav from './mainComponents/mainNav';
 import MainContent from './mainComponents/mainContent';
 export default function Home(){
@@ -22,8 +22,6 @@ export default function Home(){
   const handleListItemClick = (event, index, slug) => {
     setSelectedIndex(index);
     setSelected(slug)
-    setFrom('');
-    setTo('');
     setDisabled(false);
     setColor('DarkOliveGreen');
   };
@@ -32,9 +30,9 @@ export default function Home(){
     adRequest(setAds);
   },[]);
 const filter=()=>{
-  selectCategory(selected, setAds, from, to, lastWeek);
+  //selectCategory(selected, setAds, from, to, lastWeek);
 };
-const mainNavProps = {selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, filter, color};
+const mainNavProps = {selected, selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, filter, color};
 const mainContentProps ={ads};
   return (
 <Grid container spacing={1} justify="center" style={{width: "100%"}} >

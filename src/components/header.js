@@ -10,7 +10,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Login from './headerComponents/login';
 import Register from './headerComponents/register';
 import Loggedin from './headerComponents/loggedin';
-export default function Header({setPageState, setPanelState}){
+export default function Header({setPanelState}){
   let token = localStorage.getItem('JWT');
   const [anchorEl, setAnchorEl] = useState(null);
   const [register, setRegister] = useState(false);
@@ -63,7 +63,7 @@ export default function Header({setPageState, setPanelState}){
      )
    }
   };
-  const loginProps = {setPanelState, setPageState, handleClose, menuFunction, handleClick, anchorEl, handleClickOpenReg, setLoggedin, loggedin, name, setName};
+  const loginProps = {setPanelState, handleClose, menuFunction, handleClick, anchorEl, handleClickOpenReg, setLoggedin, loggedin, name, setName};
   return (
 <AppBar position="static" style={{backgroundColor: "DarkOliveGreen"}}>
   <Toolbar>

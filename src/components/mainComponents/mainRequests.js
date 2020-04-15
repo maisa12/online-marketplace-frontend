@@ -9,8 +9,6 @@ const adRequest = async(setAds)=>{
        setAds(array);
    };
 const selectCategory = async(slug, setAds, from, to, lastWeek)=>{
-    if(from.length===0)from=0;
-    if(to.length===0)to=0;
     const request = await fetch(`http://localhost:8000/ads/${slug}/${from}/${to}/${lastWeek}`);
     const array = await request.json();
     setAds(array);

@@ -11,8 +11,9 @@ import {
   } from '@material-ui/core';
   import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-export default function MainNav({mainNavProps}){
-    const{selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, filter, color} = mainNavProps;
+export default function MainNav({mainNavProps}){ 
+    const{selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, selected, color} = mainNavProps;
+
     return(
         <Paper >
         <Grid container spacing={0} justify="center" direction="row"  alignItems="baseline">
@@ -69,14 +70,16 @@ export default function MainNav({mainNavProps}){
           </ListItem>))  
           } 
         </List>
-        <Button variant="contained" 
-                disabled={disabled}
-                color="primary" 
-                style={{backgroundColor: color}} 
-                onClick={filter}
-                fullWidth>
+        
+          <Button variant="contained" 
+                  disabled={disabled}
+                  color="primary" 
+                  style={{backgroundColor: color}} 
+                  href={`/filter/${selected}/${from.length===0?0:from}/${to.length===0?0:to}/${lastWeek}`}
+                  fullWidth>
             გაფილტვრა
           </Button>
+       
       </Paper >
     )
 }

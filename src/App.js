@@ -1,32 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 
 import Panel from './components/panel';
 import Home from './components/home';
 import Header from './components/header';
-
+import Filter from './components/filter';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 function App() {
-  const [pageState, setPageState] = useState('home');
   const [panelState, setPanelState] = useState(0); //panel state: guest = 0, member=1, admin=2 
-const site = (state)=> {
-  if(state==='home'){
-    return (
-      <Home/>
-  )
-  }
- if(state==='panel'){
-   return(
-     <Panel panelState={panelState}/>
-   )
- }
-}
-useEffect(()=>{
-  site(pageState)
-}, [pageState])
-  return (
+  return(
     <span>
-        <Header setPageState={setPageState} setPanelState={setPanelState}/>
-        {site(pageState)}
+    <Header setPanelState={setPanelState}/>
+      <Router>
+        <Switch>
+          <Route path="/" exact >
+            <Home/>
+          </Route>
+          <Route path="/panel" exact >
+            <Panel panelState={panelState}/>
+          </Route>
+          <Route path="/filter/:category/:fromPrice/:toPrice/:thisWeek" exact component={Filter}/>
+        </Switch>
+      </Router>
       </span>
   );
 }
