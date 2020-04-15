@@ -2,7 +2,8 @@ import React from 'react';
 import {
     Paper, 
     Grid, 
-    Typography
+    Typography,
+    Link
   } from '@material-ui/core';
 export default function MainContent({mainContentProps}){
     const {ads} = mainContentProps;
@@ -18,15 +19,19 @@ return(
             <Paper  elevation={3}  style={{height: "100%"}}>
                 <Grid container spacing={1} >
                     <Grid item xs={8}  >
-                          <Typography variant="h6" style={{paddingLeft: "10px"}}  gutterBottom>
+                    <Link color='textPrimary' href={`/ad/${x.id}`} underline="none">
+                      <Typography variant="h6" style={{paddingLeft: "10px"}}  gutterBottom>
                               <strong> {x.name}</strong>
                             </Typography>
+                            </Link>
                         </Grid>
                     <Grid item xs={4}  >
                           <Typography variant="subtitle1"  style={{paddingRight: "10px"}} align="right" > <strong>{x.price} ₾</strong></Typography>
                       </Grid>
                     <Grid item  xs={12} sm={4} lg={4} md={4} style={{paddingLeft: "10px"}}>
-                          <img  alt="Smiley face" src={x.picture}  height="140" width="100%"/>
+                      <Link color='textPrimary' href={`/ad/${x.id}`} underline="none">
+                          <img  alt={x.name} src={x.picture}  height="140" width="100%"/>
+                          </Link>
                       </Grid>
                     <Grid item xs={12} sm={8} lg={8} md={8}>
                         <Grid container spacing={1} justify="center" >

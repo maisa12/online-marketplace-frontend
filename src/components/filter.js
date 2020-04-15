@@ -4,8 +4,8 @@ import {
     Grid
   } from '@material-ui/core';
 import {categories, selectCategory} from './mainComponents/mainRequests';
-import MainNav from './mainComponents/mainNav';
-import MainContent from './mainComponents/mainContent';
+import MainNav from './mainComponents/MainNav';
+import MainContent from './mainComponents/MainContent';
 export default function Filter({match}){
     const {category, fromPrice, toPrice, thisWeek} = match.params;
     const [selectedIndex, setSelectedIndex] =useState(0);

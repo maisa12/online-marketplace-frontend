@@ -1,5 +1,5 @@
 import React from 'react';
-import AddButton from './button';
+import AddButton from './Button';
 import {
     Button, 
     TextField,  

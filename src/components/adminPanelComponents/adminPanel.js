@@ -4,13 +4,13 @@ import {
     Paper, 
     Grid
   } from '@material-ui/core';
-  import PanelTable from './table';
-  import AdminNav from './adminNav';
-  import NewAd from './newAd';
-  import NewUser from './newUser';
-  import NewCat from './newCat';
-  import {ads, category, user} from './tableContent';
-  import {adButton} from './button';
+  import PanelTable from './Table';
+  import AdminNav from './AdminNav';
+  import NewAd from './NewAd';
+  import NewUser from './NewUser';
+  import NewCat from './NewCat';
+  import {ads, category, user} from './TableContent';
+  import {adButton} from './AdButton';
   import {categories} from '../mainComponents/mainRequests';
 
 export default function AdminPanel(){

@@ -12,7 +12,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 export default function Login({loginProps}){
  
-const{handleClose,  anchorEl, handleClickOpenReg, setLoggedin, setName, menuFunction, setPanelState} = loginProps;
+const{handleClose,  anchorEl, handleClickOpenReg, setLoggedin, setName, setPanelState} = loginProps;
 const [email,  setEmail] = useState('');
 const [password,  setPassword] = useState('');
 const [message, setMessage] = useState('');
@@ -29,7 +29,6 @@ const  loginRequest = async() => {
     if(response.auth === true){
         setLoggedin(true);
         setName(response.name.split("%")[0]+" "+response.name.split("%")[1]);
-        menuFunction();
         localStorage.setItem('JWT', response.token);
         if(response.status==="admin"){
           setPanelState(2); //set admin status

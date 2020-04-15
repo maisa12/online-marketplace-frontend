@@ -5,7 +5,7 @@ import {
   Typography 
 } from '@material-ui/core';
 import EditeIcon from '@material-ui/icons/Edit';
-import ChangePassword from './changeInfo/changePassword';
+import ChangePassword from './changeInfo/ChangePassword';
 export default function UsersInfo({userInfo, handleOpenInfo}){
     //state of changing password dialog
     const [openPass, setOpenPass] = useState(false)

@@ -3,13 +3,13 @@ import {
     Paper, 
     Grid
   } from '@material-ui/core';
-import UserNav from './userNav';
-import AdsTable from './adsTable';
-import UsersInfo from './usersInfo';
-import {ads, info} from './tableContent';
-import NewAd from './newAd';
+import UserNav from './UserNav';
+import AdsTable from './AdsTable';
+import UsersInfo from './UsersInfo';
+import {ads, info} from './TableContent';
+import NewAd from './NewAd';
 import {categories} from '../mainComponents/mainRequests';
-import ChangeInfo from './changeInfo/changeInfo';
+import ChangeInfo from './changeInfo/ChangeInfo';
 export default function UserPanel(){
     //state of adding ad's dialog
     const [open, setOpen] = useState(false);

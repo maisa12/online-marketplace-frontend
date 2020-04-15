@@ -12,7 +12,7 @@ import {
           MenuItem, 
           InputLabel
       }from '@material-ui/core';
-import {Authors} from './adsAuthor'
+import {Authors} from './AdsAuthor'
 
 export default function NewAd({ adProps,  open,  adsButton}) {
  const {edit, add, value, setValue, val, aut, handleClose, adButton, nameError, setNameError, pictureError, setPictureError, descriptionError, setdescriptionError, priceError, setPriceError, message} = adProps;

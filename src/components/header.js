@@ -7,10 +7,10 @@ import {
     IconButton
   } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Login from './headerComponents/login';
-import Register from './headerComponents/register';
-import Loggedin from './headerComponents/loggedin';
-export default function Header({setPanelState}){
+import Login from './headerComponents/Login';
+import Register from './headerComponents/Register';
+import Loggedin from './headerComponents/Loggedin';
+export default function Header({setPanelState, setPanelLoading}){
   let token = localStorage.getItem('JWT');
   const [anchorEl, setAnchorEl] = useState(null);
   const [register, setRegister] = useState(false);
@@ -33,11 +33,15 @@ export default function Header({setPanelState}){
 
     if(response.status==='member'){
       setPanelState(1);
+      setLoggedin(true);
       }else if(response.status==='admin'){
       setPanelState(2);
+      setLoggedin(true);
       }else{
       setPanelState(0);
+      setLoggedin(false);
           }
+      setPanelLoading(false);
       }
     }
     useEffect(()=>{
@@ -51,26 +55,15 @@ export default function Header({setPanelState}){
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const menuFunction = () => {
-    if(loggedin===true){
-      return (
-        <Loggedin loginProps={loginProps}/>
-      )
-    }
-   else{
-     return(
-        <Login loginProps={loginProps}/>
-     )
-   }
-  };
-  const loginProps = {setPanelState, handleClose, menuFunction, handleClick, anchorEl, handleClickOpenReg, setLoggedin, loggedin, name, setName};
+ 
+  const loginProps = {setPanelState, handleClose, handleClick, anchorEl, handleClickOpenReg, setLoggedin, loggedin, name, setName};
   return (
 <AppBar position="static" style={{backgroundColor: "DarkOliveGreen"}}>
   <Toolbar>
     <Typography variant="h4" style={{flexGrow: 1}}>
       ONLINE-MARKETPLACE
     </Typography>
-        {menuFunction()}
+        {loggedin===true?(<Loggedin loginProps={loginProps}/>):(<Login loginProps={loginProps}/>)}
         <Register registerProps={registerProps}/>
       <IconButton
                 aria-label="account of current user"

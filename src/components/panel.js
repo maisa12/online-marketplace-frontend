@@ -1,36 +1,16 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import '../App.css';
-import AdminPanel from './adminPanelComponents/adminPanel';
-import UserPanel from './userPanelComponents/userPanel';
-
-export default function Panel({panelState}){
-
-//if panelState=0 default value
-const changeState = (number) => {
-  //panelState=2 adminpanel
-  if(number===2){
-    return (
-      <AdminPanel/>
-    )
-  }
-   //panelState=1 adminpanel
-  else if(number===1){
-    return(
-      <UserPanel/>
-    )
-  }
-  else{
-    return(
-      <h2>404 not found</h2>
-    )
-  }
-}
-useEffect(()=>{
-  changeState(panelState);
-},[panelState])
+import AdminPanel from './adminPanelComponents/AdminPanel';
+import UserPanel from './userPanelComponents/UserPanel';
+import CircularProgress from '@material-ui/core/CircularProgress';
+export default function Panel({panelState, panelLoading}){
   return (
     <span>
-      {changeState(panelState)}
+      {panelLoading===true?(<div align="center">
+               <CircularProgress color="inherit" />
+            </div>):(<span>{panelState===0?(<h2>notFound</h2>):""}</span>)}
+      {panelState===2?(<AdminPanel/>):""}
+      {panelState===1?(<UserPanel/>):""}
     </span>
-  );
-}
+  )
+};

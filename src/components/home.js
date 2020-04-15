@@ -4,8 +4,8 @@ import {
   Grid
 } from '@material-ui/core';
 import {categories, adRequest} from './mainComponents/mainRequests';
-import MainNav from './mainComponents/mainNav';
-import MainContent from './mainComponents/mainContent';
+import MainNav from './mainComponents/MainNav';
+import MainContent from './mainComponents/MainContent';
 export default function Home(){
   const [selectedIndex, setSelectedIndex] =useState(0);
   const [cat, setCategories] =useState([]);
