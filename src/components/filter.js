@@ -1,16 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import '../App.css';
 import {
-    Grid
+    Grid,
+    Link
   } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
 import {categories, selectCategory} from './mainComponents/mainRequests';
 import MainNav from './mainComponents/MainNav';
 import MainContent from './mainComponents/MainContent';
 export default function Filter({match}){
-    const {category, fromPrice, toPrice, thisWeek} = match.params;
+    const {category, fromPrice, toPrice, thisWeek, pageNumber} = match.params;
     const [selectedIndex, setSelectedIndex] =useState(0);
     const [cat, setCategories] =useState([]);
     const [ads, setAds] =useState([]);
+    const [pegination, setPegination] =useState(0);
+    const [page, setPage] = useState(0);
     const [from, setFrom] =useState('');
     const [to, setTo] =useState('');
     const [selected, setSelected] = useState('');
@@ -47,7 +51,7 @@ export default function Filter({match}){
         if(thisWeek==="true"){
             setLastWeek(true);
         }
-        selectCategory(category, setAds, fromPrice, toPrice, thisWeek);
+        selectCategory(category, setAds, fromPrice, toPrice, thisWeek, setPegination, pageNumber);
       },[]);
       useEffect(()=>{selectCategoryIndex(category, cat)},[cat]);
     const mainNavProps = {selected, selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, color};
@@ -61,8 +65,12 @@ export default function Filter({match}){
         </Grid>
 
 
-        <Grid item xs={8}  >
+        <Grid item xs={8}>
             <MainContent mainContentProps={mainContentProps}/>
+           
+            <Link  href={`/filter/${category}/${fromPrice}/${toPrice}/${thisWeek}/${page}`} underline="none"> 
+                <Pagination count={pegination} page={Number(pageNumber)} onChange={(event, page)=>setPage(page)} style={{width: '40%', marginLeft:'30%', marginTop:'10px', marginBottom: '20px'}} />
+            </Link> 
         </Grid>
     </Grid>
     )

@@ -75,7 +75,7 @@ export default function MainNav({mainNavProps}){
                   disabled={disabled}
                   color="primary" 
                   style={{backgroundColor: color}} 
-                  href={`/filter/${selected}/${from.length===0?0:from}/${to.length===0?0:to}/${lastWeek}`}
+                  href={`/filter/${selected}/${from.length===0?0:from}/${to.length===0?0:to}/${lastWeek}/1`}
                   fullWidth>
             გაფილტვრა
           </Button>

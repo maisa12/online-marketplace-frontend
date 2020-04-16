@@ -20,7 +20,7 @@ function App() {
           <Route path="/panel" exact >
             <Panel panelState={panelState} panelLoading={panelLoading}/>
           </Route>
-          <Route path="/filter/:category/:fromPrice/:toPrice/:thisWeek" exact component={Filter}/>
+          <Route path="/filter/:category/:fromPrice/:toPrice/:thisWeek/:pageNumber" exact component={Filter}/>
           <Route path="/ad/:adId" exact component={AdPage}/>
         </Switch>
       </Router>
