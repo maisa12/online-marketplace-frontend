@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Header from './components/Header';
 import Filter from './components/Filter';
 import AdPage from './components/AdPage';
+import Admin from './components/Admin';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 function App() {
   const [panelState, setPanelState] = useState(0); //panel state: guest = 0, member=1, admin=2 
@@ -19,6 +20,9 @@ function App() {
           </Route>
           <Route path="/panel" exact >
             <Panel panelState={panelState} panelLoading={panelLoading}/>
+          </Route>
+          <Route path="/adminPanel" exact >
+            <Admin panelState={panelState} panelLoading={panelLoading}/>
           </Route>
           <Route path="/filter/:category/:fromPrice/:toPrice/:thisWeek/:pageNumber" exact component={Filter}/>
           <Route path="/ad/:adId" exact component={AdPage}/>

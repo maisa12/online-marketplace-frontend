@@ -28,8 +28,8 @@ const logOut = () => {
     <Typography  variant="button" style={{flexGrow: 1}}>
       {name}
     </Typography>
-    <MenuItem ><Link color='textPrimary' href="/panel" underline="none">პანელში შესვლა</Link></MenuItem>
-    <MenuItem onClick={logOut}>გასვლა</MenuItem>
+    <MenuItem ><Link color='textPrimary' href="/panel" underline="none">პროფილი</Link></MenuItem>
+    <MenuItem onClick={logOut}>გამოსვლა</MenuItem>
 </Menu>
     )
 }

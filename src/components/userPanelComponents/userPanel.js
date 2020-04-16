@@ -10,7 +10,7 @@ import {ads, info} from './TableContent';
 import NewAd from './NewAd';
 import {categories} from '../mainComponents/mainRequests';
 import ChangeInfo from './changeInfo/ChangeInfo';
-export default function UserPanel(){
+export default function UserPanel({panelState}){
     //state of adding ad's dialog
     const [open, setOpen] = useState(false);
     // error message state
@@ -215,7 +215,7 @@ export default function UserPanel(){
         info(setUserInfo)
         }
     }, [selectedIndex]);
-    const userNavProps = {handleOpenInfo, selectedIndex, handleListItemClick, handleClickOpen};
+    const userNavProps = {panelState, handleOpenInfo, selectedIndex, handleListItemClick, handleClickOpen};
     const adsTable ={columns, rows, deleteItem, adUpdate};
     return (
         <Grid container spacing={1} style={{width: "100%"}} justify="center">

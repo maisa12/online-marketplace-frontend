@@ -6,6 +6,8 @@ import {
 } from '@material-ui/core';
 import EditeIcon from '@material-ui/icons/Edit';
 import ChangePassword from './changeInfo/ChangePassword';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from '../theme';
 export default function UsersInfo({userInfo, handleOpenInfo}){
     //state of changing password dialog
     const [openPass, setOpenPass] = useState(false)
@@ -16,7 +18,7 @@ export default function UsersInfo({userInfo, handleOpenInfo}){
       setOpenPass(false);
     }
     return(
-        <div>
+  <ThemeProvider theme={theme}>
         <Typography variant="h5" gutterBottom>
         მომხმარებლის ინფორმაცია 
         <IconButton aria-label="add category" onClick={()=>handleOpenInfo()} >
@@ -41,7 +43,8 @@ export default function UsersInfo({userInfo, handleOpenInfo}){
       <Button variant="outlined" onClick={handleClickOpenPass} color="primary">
         პაროლის შეცვლა
       </Button>
-      <ChangePassword handleClosePass={handleClosePass} openPass={openPass}/>
-      </div>
+      <ChangePassword handleClosePass={handleClosePass}  openPass={openPass}/>
+  </ThemeProvider>
+    
     )
 }

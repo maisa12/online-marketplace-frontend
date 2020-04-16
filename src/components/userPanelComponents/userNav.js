@@ -3,13 +3,16 @@ import {
     List,
     ListItem,
     ListItemText,
-    IconButton
+    IconButton,
+    Button
   } from '@material-ui/core';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-
+import { ThemeProvider } from '@material-ui/styles';
+import theme from '../theme';
 export default function UserNav({userNavProps}){
-    const { selectedIndex, handleListItemClick, handleClickOpen} = userNavProps;
+    const { selectedIndex, handleListItemClick, handleClickOpen, panelState} = userNavProps;
 return(
+    <ThemeProvider theme={theme}>
     <List component="nav" aria-label="main mailbox folders">
                     <ListItem 
                             button
@@ -29,6 +32,10 @@ return(
                         <ListItemText primary="პირადი ინფორმაცია" />
                         
                     </ListItem>
+                    {panelState===2?( <Button color="primary" href="/adminPanel" fullWidth >
+                        ადმინ პანელში შესვლა
+                    </Button>):''}  
                 </List>
+    </ThemeProvider>
 )
 }

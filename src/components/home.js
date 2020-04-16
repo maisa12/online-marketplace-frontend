@@ -15,7 +15,6 @@ export default function Home(){
   const [selected, setSelected] = useState('');
   const [lastWeek, setLastWeek] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [color, setColor] = useState("LightGray");
   const handleCheckBox = (event) => {
     setLastWeek(event.target.checked)
   };
@@ -23,7 +22,6 @@ export default function Home(){
     setSelectedIndex(index);
     setSelected(slug)
     setDisabled(false);
-    setColor('DarkOliveGreen');
   };
   useEffect(()=>{
     categories(setCategories);
@@ -32,7 +30,7 @@ export default function Home(){
 const filter=()=>{
   //selectCategory(selected, setAds, from, to, lastWeek);
 };
-const mainNavProps = {selected, selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, filter, color};
+const mainNavProps = {selected, selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, filter};
 const mainContentProps ={ads};
   return (
 <Grid container spacing={1} justify="center" style={{width: "100%"}} >
