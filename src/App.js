@@ -6,12 +6,14 @@ import Header from './components/Header';
 import Filter from './components/Filter';
 import AdPage from './components/AdPage';
 import Admin from './components/Admin';
+import theme from './components/theme';
+import { ThemeProvider } from '@material-ui/styles';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 function App() {
   const [panelState, setPanelState] = useState(0); //panel state: guest = 0, member=1, admin=2 
   const [panelLoading, setPanelLoading] = useState(true); 
   return(
-  <span>
+    <ThemeProvider theme={theme}>
     <Header setPanelState={setPanelState} setPanelLoading={setPanelLoading}/>
       <Router>
         <Switch>
@@ -28,7 +30,7 @@ function App() {
           <Route path="/ad/:adId" exact component={AdPage}/>
         </Switch>
       </Router>
-  </span>
+  </ThemeProvider>
   );
 }
 

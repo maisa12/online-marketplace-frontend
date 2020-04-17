@@ -11,13 +11,10 @@ import {
   } from '@material-ui/core';
   import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme';
 export default function MainNav({mainNavProps}){ 
     const{selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, selected} = mainNavProps;
 
     return(
-      <ThemeProvider theme={theme}>
         <Paper >
         <Grid container spacing={0} justify="center" direction="row"  alignItems="baseline">
           <Grid item xs={6} style={{paddingLeft: "5px"}}>
@@ -82,6 +79,6 @@ export default function MainNav({mainNavProps}){
             გაფილტვრა
           </Button>
       </Paper >
-</ThemeProvider>
+
     )
 }

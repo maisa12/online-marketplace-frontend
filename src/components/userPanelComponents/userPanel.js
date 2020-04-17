@@ -6,7 +6,7 @@ import {
 import UserNav from './UserNav';
 import AdsTable from './AdsTable';
 import UsersInfo from './UsersInfo';
-import {ads, info} from './TableContent';
+import {ads, info} from './tableContent';
 import NewAd from './NewAd';
 import {categories} from '../mainComponents/mainRequests';
 import ChangeInfo from './changeInfo/ChangeInfo';

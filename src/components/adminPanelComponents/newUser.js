@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, {useState}  from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,14 +12,15 @@ import InputLabel from '@material-ui/core/InputLabel';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 export default function NewUser({ open, usersProps, adsButton }){
+
   const phoneMessege = 'მაგ.:5********';
+  const [firstPasswordField, setFirstPasswordField] = useState('');
   const  {add, edit, adButton, value, setValue, handleClose, message, phoneError, setPhoneError, emailError, setEmailError, pasError, setPasError, passError, setPassError, namesError, setNamesError, lnameError, setLnameError} = usersProps; 
   const handleChange = event => {
     setValue(prevState => {
       return { ...prevState, status: event.target.value}
                      })
   };
-
   const phoneValidation = (val) =>{
       const phoneEx = /^5[\d+]{8}/;
       if(phoneEx.test(val) && val.length===9){
@@ -49,17 +50,23 @@ const pasValidation = (val) =>{
     
   if(pasEx.test(val)){
     setPasError(false);
-    setValue(prevState => {
-    return { ...prevState, password: val}
-                     })
+    setFirstPasswordField(val);
+    if(val!==value.password){
+      setPassError(true);
+    } else{
+      setPassError(false);
+    }
                     }
    else{
     setPasError(true);
                     }
 }
 const passValidation = (val) =>{
-  if(val===value.password){
+  if(val===firstPasswordField){
     setPassError(false);
+    setValue(prevState => {
+      return { ...prevState, password: val}
+                       })
                     }
    else{
     setPassError(true);

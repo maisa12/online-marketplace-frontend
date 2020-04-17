@@ -10,8 +10,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Login from './headerComponents/Login';
 import Register from './headerComponents/Register';
 import Loggedin from './headerComponents/Loggedin';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from './theme';
 export default function Header({setPanelState, setPanelLoading}){
   let token = localStorage.getItem('JWT');
   const [anchorEl, setAnchorEl] = useState(null);
@@ -60,7 +58,7 @@ export default function Header({setPanelState, setPanelLoading}){
  
   const loginProps = {setPanelState, handleClose, handleClick, anchorEl, handleClickOpenReg, setLoggedin, loggedin, name, setName};
   return (
-<ThemeProvider theme={theme}>
+
 <AppBar position="static" color='primary'>
   <Toolbar>
     <Typography variant="h4" style={{flexGrow: 1}}>
@@ -79,7 +77,7 @@ export default function Header({setPanelState, setPanelLoading}){
         </IconButton>
   </Toolbar>
 </AppBar>
-</ThemeProvider>
+
   );
 }
 

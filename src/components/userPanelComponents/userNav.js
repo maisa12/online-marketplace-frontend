@@ -7,12 +7,10 @@ import {
     Button
   } from '@material-ui/core';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from '../theme';
+
 export default function UserNav({userNavProps}){
     const { selectedIndex, handleListItemClick, handleClickOpen, panelState} = userNavProps;
 return(
-    <ThemeProvider theme={theme}>
     <List component="nav" aria-label="main mailbox folders">
                     <ListItem 
                             button
@@ -36,6 +34,5 @@ return(
                         ადმინ პანელში შესვლა
                     </Button>):''}  
                 </List>
-    </ThemeProvider>
 )
 }

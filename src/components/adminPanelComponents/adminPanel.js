@@ -9,7 +9,7 @@ import {
   import NewAd from './NewAd';
   import NewUser from './NewUser';
   import NewCat from './NewCat';
-  import {ads, category, user} from './TableContent';
+  import {ads, category, user} from './tableContent';
   import {adButton} from './AdButton';
   import {categories} from '../mainComponents/mainRequests';
 

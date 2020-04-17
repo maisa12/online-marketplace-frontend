@@ -5,9 +5,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
 import DialogContentText from '@material-ui/core/DialogContentText';
-
 export default function Register({registerProps}){
     const [value, setValue] = useState({name: '', lastname: '', email: '',  phoneNumber:'', password: ''});
     const [phoneError, setPhoneError] = useState(null);
@@ -18,7 +16,9 @@ export default function Register({registerProps}){
     const [lnameError, setLnameError] = useState(null);
     const [disable, setDisable] = useState(true);
     const [message, setMessage] = useState('');
+    const [firstPasswordField, setFirstPasswordField] = useState('');
     const phoneMessege = 'მაგ.:5********';
+    
    const {register, setRegister} = registerProps;
   
   const handleClose = () => {
@@ -44,6 +44,9 @@ useEffect(()=>{
     };
     if(count===6){
         setDisable(false);
+    }
+    else{
+      setDisable(true);
     } 
 },[phoneError, emailError, pasError, passError, namesError, lnameError]);
 const registerRequest = async() => {
@@ -91,17 +94,23 @@ const pasValidation = (val) =>{
     
   if(pasEx.test(val)){
     setPasError(false);
-    setValue(prevState => {
-    return { ...prevState, password: val}
-                     })
+    setFirstPasswordField(val);
+    if(val!==value.password){
+      setPassError(true);
+    } else{
+      setPassError(false);
+    }
                     }
    else{
     setPasError(true);
                     }
 }
 const passValidation = (val) =>{
-  if(val===value.password){
+  if(val===firstPasswordField){
     setPassError(false);
+    setValue(prevState => {
+      return { ...prevState, password: val}
+                       })
                     }
    else{
     setPassError(true);
