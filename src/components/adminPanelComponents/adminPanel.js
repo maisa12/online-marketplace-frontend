@@ -11,6 +11,7 @@ import {
   import NewCat from './NewCat';
   import {ads, category, user} from './tableContent';
   import {adButton} from './AdButton';
+  import axios from 'axios';
   import {categories} from '../mainComponents/mainRequests';
 
 export default function AdminPanel(){
@@ -28,21 +29,32 @@ export default function AdminPanel(){
  //update request
 const edit = async()=>{
   var passed = 0;
+  
   for(let x of array){
     if(x===false || x===null)  passed++;
     }
+    
   if(passed===count){
-  await fetch(`http://localhost:8000/update/${endpoint}/${value.id}`,{
-    method: 'put',
-     headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-        Authorization: `JWT ${localStorage.getItem('JWT')}`
-     },
-     body: JSON.stringify(value)
-  })
-    .then(e=>e.text())
-    .then(e=>e==="success"?handleClose():cantAdd(e))
-    .catch((error)=>{console.log(error)})
+    try{
+      var request = await axios.put(`http://localhost:8000/update/${endpoint}/${value.id}`,
+      value,
+      {
+         headers: {
+            Authorization: `JWT ${localStorage.getItem('JWT')}`
+         }
+      })
+        var response = request.data;
+        if(response==="success"){
+          handleClose();
+        }
+        else{
+          cantAdd(response)
+        }
+    }
+    catch(e){
+      console.error(edit)
+    }
+ 
   }
 }
   //add update
@@ -127,30 +139,27 @@ if(selectedIndex===2){
       if(x===false)  passed++;
       }
     if(passed===count){
-    await fetch(`http://localhost:8000/add/${endpoint}`, {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json',
-       Authorization: `JWT ${localStorage.getItem('JWT')}`
-     },
-     body: JSON.stringify(value)
+    await axios.post(`http://localhost:8000/add/${endpoint}`, 
+      value,
+    {
+      headers: {
+      Authorization: `JWT ${localStorage.getItem('JWT')}`
+     }
    })
-    .then(e=>e.text())
-    .then(e=>e==="success"?handleClose():cantAdd(e))
+    .then(e=>e.data==="success"?handleClose():cantAdd(e.data))
     .catch((error)=>{console.log(error)})
   }
  }
    // author
   const [aut, setAut] = useState([]);
   const authors = async()=>{
-    const request = await fetch(`http://localhost:8000/authors`,
+    const request = await axios.get(`http://localhost:8000/authors`,
     {
-      method: 'GET',
       headers: {
         Authorization: `JWT ${localStorage.getItem('JWT')}`
       }
    })
-    const array = await request.json();
+    const array = request.data;
     setAut(array);
    };
   //
@@ -203,14 +212,21 @@ if(selectedIndex===2){
   };
   //delete from table
   async function deleteItem(id){
-    await fetch(`http://localhost:8000/delete/${endpoint}/${
-      id}`,
-    {
-      method:'delete',
-      headers: {
-        Authorization: `JWT ${localStorage.getItem('JWT')}`
-      }
-    }).then(e=>console.log('deleted')).then(()=>handleClose()).catch((error)=>{console.log(error)})
+    try{
+      var response = await axios.delete(`http://localhost:8000/delete/${endpoint}/${
+        id}`,
+      {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('JWT')}`
+        }
+      });
+      console.log(response.data);
+      handleClose();
+     
+    }
+    catch(e){
+      console.error(e)
+    }
   }
   
 const usersProps = {add, edit, adButton, value, setValue, handleClose, message, phoneError, setPhoneError, emailError, setEmailError, pasError, setPasError, passError, setPassError, namesError, setNamesError, lnameError, setLnameError}; 

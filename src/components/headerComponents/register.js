@@ -5,6 +5,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import axios from 'axios';
 import DialogContentText from '@material-ui/core/DialogContentText';
 export default function Register({registerProps}){
     const [value, setValue] = useState({name: '', lastname: '', email: '',  phoneNumber:'', password: ''});
@@ -50,14 +51,8 @@ useEffect(()=>{
     } 
 },[phoneError, emailError, pasError, passError, namesError, lnameError]);
 const registerRequest = async() => {
-    var request = await fetch('http://localhost:8000/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        body: JSON.stringify(value)
-    });
-    var response = await request.json();
+    var request = await axios('http://localhost:8000/register', value);
+    var response = await request.data;
     if(response.register===true){
         handleClose();
     }

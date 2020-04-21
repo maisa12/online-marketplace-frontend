@@ -7,9 +7,10 @@ import {
     Button
   } from '@material-ui/core';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-
+import {useSelector} from 'react-redux';
 export default function UserNav({userNavProps}){
-    const { selectedIndex, handleListItemClick, handleClickOpen, panelState} = userNavProps;
+    const status =  useSelector(state=>state.status);
+    const { selectedIndex, handleListItemClick, handleClickOpen} = userNavProps;
 return(
     <List component="nav" aria-label="main mailbox folders">
                     <ListItem 
@@ -30,7 +31,7 @@ return(
                         <ListItemText primary="პირადი ინფორმაცია" />
                         
                     </ListItem>
-                    {panelState===2?( <Button color="primary" href="/adminPanel" fullWidth >
+                    {status==="admin"?( <Button color="primary" href="/adminPanel" fullWidth >
                         ადმინ პანელში შესვლა
                     </Button>):''}  
                 </List>

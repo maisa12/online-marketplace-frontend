@@ -9,33 +9,23 @@ import{
     Typography
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import axios from 'axios';
 import LockIcon from '@material-ui/icons/Lock';
+import {request} from '../../redux/actions/request';
+import {useDispatch} from 'react-redux';
 export default function Login({loginProps}){
- 
+const dispatch = useDispatch();
 const{handleClose,  anchorEl, handleClickOpenReg, setLoggedin, setName, setPanelState} = loginProps;
 const [email,  setEmail] = useState('');
 const [password,  setPassword] = useState('');
 const [message, setMessage] = useState('');
 var form = {email: email, password: password};
 const  loginRequest = async() => {
-  var req = await fetch('http://localhost:8000/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        body: JSON.stringify(form)
-    });
-    var response = await req.json();
+  var req = await axios.post('http://localhost:8000/login', form);
+    var response = await req.data;
     if(response.auth === true){
-        setLoggedin(true);
-        setName(response.name.split("%")[0]+" "+response.name.split("%")[1]);
         localStorage.setItem('JWT', response.token);
-        if(response.status==="admin"){
-          setPanelState(2); //set admin status
-        }
-        if(response.status==="member"){
-          setPanelState(1); //set member status
-        }
+        dispatch(request());
     }
     else{
       setMessage(response.message);

@@ -8,6 +8,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import {categories, selectCategory} from './mainComponents/mainRequests';
 import MainNav from './mainComponents/MainNav';
 import MainContent from './mainComponents/MainContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 export default function Filter({match}){
     const {category, fromPrice, toPrice, thisWeek, pageNumber} = match.params;
     const [selectedIndex, setSelectedIndex] =useState(0);
@@ -19,8 +20,8 @@ export default function Filter({match}){
     const [to, setTo] =useState('');
     const [selected, setSelected] = useState('');
     const [lastWeek, setLastWeek] = useState(false);
+    const [loading, setLoading] = useState(true);
     const disabled = false;
-    const color = "DarkOliveGreen";
     const handleListItemClick = (event, index, slug) => {
         setSelectedIndex(index);
         setSelected(slug)
@@ -51,10 +52,10 @@ export default function Filter({match}){
         if(thisWeek==="true"){
             setLastWeek(true);
         }
-        selectCategory(category, setAds, fromPrice, toPrice, thisWeek, setPegination, pageNumber);
+        selectCategory(category, setAds, fromPrice, toPrice, thisWeek, setPegination, pageNumber, setLoading);
       },[]);
       useEffect(()=>{selectCategoryIndex(category, cat)},[cat]);
-    const mainNavProps = {selected, selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, color};
+    const mainNavProps = {selected, selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled};
     const mainContentProps ={ads};
    
 
@@ -66,11 +67,15 @@ export default function Filter({match}){
 
 
         <Grid item xs={8}>
+            {loading===true?(<div align="center">
+               <CircularProgress color="inherit" />
+            </div>):(<span>
             <MainContent mainContentProps={mainContentProps}/>
-           
             <Link  href={`/filter/${category}/${fromPrice}/${toPrice}/${thisWeek}/${page}`} underline="none"> 
                 <Pagination count={pegination} page={Number(pageNumber)} onChange={(event, page)=>setPage(page)} style={{width: '40%', marginLeft:'30%', marginTop:'10px', marginBottom: '20px'}} />
             </Link> 
+                </span>)}
+          
         </Grid>
     </Grid>
     )

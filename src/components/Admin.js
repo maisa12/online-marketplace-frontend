@@ -2,12 +2,15 @@ import React from 'react';
 import '../App.css';
 import AdminPanel from './adminPanelComponents/AdminPanel';
 import CircularProgress from '@material-ui/core/CircularProgress';
-export default function Admin({panelState, panelLoading}){
+import {useSelector} from 'react-redux';
+export default function Admin(){
+  const status = useSelector(state=>state.status);
+  const panelLoading = useSelector(state=>state.loading);
   return (
     <span>
       {panelLoading===true?(<div align="center">
                <CircularProgress color="inherit" />
-            </div>):(<span>{panelState===2?(<AdminPanel/>):<h2>notFound</h2>}</span>)}
+            </div>):(<span>{status==="admin"?(<AdminPanel/>):<h2>notFound</h2>}</span>)}
      
     </span>
   )

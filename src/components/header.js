@@ -4,48 +4,29 @@ import {
     AppBar, 
     Typography, 
     Toolbar,
-    IconButton
+    IconButton,
+    Link
   } from '@material-ui/core';
+import {request} from '../redux/actions/request';
+import {useDispatch} from 'react-redux';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Login from './headerComponents/Login';
 import Register from './headerComponents/Register';
 import Loggedin from './headerComponents/Loggedin';
-export default function Header({setPanelState, setPanelLoading}){
-  let token = localStorage.getItem('JWT');
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {useSelector} from 'react-redux';
+export default function Header(){
+  const loggedin =  useSelector(state=>state.loggedIn);
+  const panelLoading =  useSelector(state=>state.loading);
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [register, setRegister] = useState(false);
-  const [loggedin, setLoggedin] = useState(false);
-  const [name, setName] = useState('');
   const handleClickOpenReg= () => {
     setRegister(true);
   };
-    const reload = async() =>{
-      if(token!==null){
-        var req = await fetch('http://localhost:8000/findUser', {
-          method: 'GET',
-          headers: {
-            Authorization: `JWT ${token}`
-          }
-       });
-    var response = await req.json();
-    setLoggedin(response.auth);
-    setName(response.name.split("%")[0]+" "+response.name.split("%")[1]);
-
-    if(response.status==='member'){
-      setPanelState(1);
-      setLoggedin(true);
-      }else if(response.status==='admin'){
-      setPanelState(2);
-      setLoggedin(true);
-      }else{
-      setPanelState(0);
-      setLoggedin(false);
-          }
-      setPanelLoading(false);
-      }
-    }
     useEffect(()=>{
-      reload()
+      dispatch(request());
       }, []);
   const registerProps = {register, setRegister};
   const handleClick = (event) => {
@@ -56,14 +37,24 @@ export default function Header({setPanelState, setPanelLoading}){
     setAnchorEl(null);
   };
  
-  const loginProps = {setPanelState, handleClose, handleClick, anchorEl, handleClickOpenReg, setLoggedin, loggedin, name, setName};
+  const loginProps = {
+                        handleClose, 
+                        handleClick, 
+                        anchorEl, 
+                        handleClickOpenReg
+                      };
   return (
 
 <AppBar position="static" color='primary'>
   <Toolbar>
+
     <Typography variant="h4" style={{flexGrow: 1}}>
+    <Link color="inherit"  href="/" underline="none">
       ONLINE-MARKETPLACE
+      </Link>
     </Typography>
+  
+    
         {loggedin===true?(<Loggedin loginProps={loginProps}/>):(<Login loginProps={loginProps}/>)}
         <Register registerProps={registerProps}/>
       <IconButton
@@ -73,7 +64,9 @@ export default function Header({setPanelState, setPanelLoading}){
                 onClick={handleClick}
                 color="inherit"
               >
-                <AccountCircle />
+                {panelLoading===false?(<span>{loggedin===true?(<AccountCircle />):(<ExitToAppIcon/>)}</span>):(<div align="center">
+               <CircularProgress color="inherit" />
+            </div>)}  
         </IconButton>
   </Toolbar>
 </AppBar>

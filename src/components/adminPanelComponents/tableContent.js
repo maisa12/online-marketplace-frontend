@@ -1,4 +1,5 @@
 
+import axios from 'axios';
 async function user(setColumns, setRows){
     setColumns([{ id: 'name', label: 'სახელი/გვარი', minWidth: '20%' },
     { id: 'number', label: 'მობილურის ნომერი', minWidth: '25%' },
@@ -19,15 +20,14 @@ async function user(setColumns, setRows){
         minWidth: '20%',
         align: 'right',
       }]);
-      const request = await fetch(`http://localhost:8000/users`,
+      const request = await axios.get(`http://localhost:8000/users`,
       {
-        method: 'GET',
         headers: {
           Authorization: `JWT ${localStorage.getItem('JWT')}`
         }
       }
      );
-      const userArray = await request.json();
+      const userArray = request.data;
       userArray.forEach(x=>x.name=x.name.split("%")[0]+" "+x.name.split("%")[1]);
       setRows(userArray);
   }
@@ -44,8 +44,8 @@ async function user(setColumns, setRows){
         align: 'right',
       }
     ]);
-    const request = await fetch(`http://localhost:8000/category`);
-    const array = await request.json();
+    const request = await axios.get(`http://localhost:8000/category`);
+    const array = request.data;
     setRows(array)
   }
   //Ads table request
@@ -71,15 +71,14 @@ async function user(setColumns, setRows){
           align: 'right',
         }
     ]);
-    const request = await fetch(`http://localhost:8000/ads`,
+    const request = await axios.get(`http://localhost:8000/ads`,
     {
-      method: 'GET',
       headers: {
         Authorization: `JWT ${localStorage.getItem('JWT')}`
       }
     }
    );
-    const adsArray = await request.json();
+    const adsArray = request.data;
     adsArray.forEach(x=>{
       x.author=x['users.author'].split("%")[0]+" "+x['users.author'].split("%")[1];
 

@@ -6,14 +6,16 @@ import{
     Typography,
     Link
 } from '@material-ui/core';
-
+import { logOut } from '../../redux/actions/logOut';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function Loggedin({loginProps}){
-const{handleClose, anchorEl, setLoggedin, name, setPanelState} = loginProps;
-const logOut = () => {
-    setLoggedin(false);
+    const name =  useSelector(state=>state.name);
+    const dispatch = useDispatch();
+    const{handleClose, anchorEl} = loginProps;
+    const logout = () => {
     localStorage.removeItem('JWT');
-    setPanelState(0);
+    dispatch(logOut());
 }
 
     return(
@@ -29,7 +31,7 @@ const logOut = () => {
       {name}
     </Typography>
     <MenuItem ><Link color='textPrimary' href="/panel" underline="none">პროფილი</Link></MenuItem>
-    <MenuItem onClick={logOut}>გამოსვლა</MenuItem>
+    <MenuItem onClick={logout}>გამოსვლა</MenuItem>
 </Menu>
     )
 }
