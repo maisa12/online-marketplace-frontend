@@ -12,8 +12,8 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 function App() {
   return(
     <ThemeProvider theme={theme}>
-    <Header />
       <Router>
+      <Header />
         <Switch>
           <Route path="/" exact >
             <Home/>
@@ -24,7 +24,7 @@ function App() {
           <Route path="/adminPanel" exact >
             <Admin />
           </Route>
-          <Route path="/filter/:category/:fromPrice/:toPrice/:thisWeek/:pageNumber" exact component={Filter}/>
+          <Route path="/posts/:query" exact component={Filter}/>
           <Route path="/ad/:adId" exact component={AdPage}/>
         </Switch>
       </Router>

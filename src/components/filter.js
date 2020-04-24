@@ -1,21 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import '../App.css';
 import {
-    Grid,
-    Link
+    Grid
   } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
 import {categories, selectCategory} from './mainComponents/mainRequests';
 import MainNav from './mainComponents/MainNav';
 import MainContent from './mainComponents/MainContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Pagination from './mainComponents/Pagination';
+import queryString from 'query-string';
 export default function Filter({match}){
-    const {category, fromPrice, toPrice, thisWeek, pageNumber} = match.params;
+    const {query} = match.params;
+    const {category, fromPrice, toPrice, thisWeek, pageNumber} = queryString.parse(query);
     const [selectedIndex, setSelectedIndex] =useState(0);
     const [cat, setCategories] =useState([]);
     const [ads, setAds] =useState([]);
     const [pegination, setPegination] =useState(0);
-    const [page, setPage] = useState(0);
     const [from, setFrom] =useState('');
     const [to, setTo] =useState('');
     const [selected, setSelected] = useState('');
@@ -43,22 +43,21 @@ export default function Filter({match}){
       useEffect(()=>{
         categories(setCategories);
         setSelected(category);
-        if(fromPrice!=="0"){
+        if(fromPrice!==undefined){
             setFrom(fromPrice);
         }
-        if(toPrice!=="0"){
+        if(toPrice!==undefined){
             setTo(toPrice);
         }
         if(thisWeek==="true"){
             setLastWeek(true);
-        }
+      }
         selectCategory(category, setAds, fromPrice, toPrice, thisWeek, setPegination, pageNumber, setLoading);
-      },[]);
+
+      },[category, fromPrice, toPrice, thisWeek, pageNumber]);
       useEffect(()=>{selectCategoryIndex(category, cat)},[cat]);
     const mainNavProps = {selected, selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled};
     const mainContentProps ={ads};
-   
-
     return (
     <Grid container spacing={1} justify="center" style={{width: "100%"}} >
         <Grid item xs={3} >
@@ -71,10 +70,8 @@ export default function Filter({match}){
                <CircularProgress color="inherit" />
             </div>):(<span>
             <MainContent mainContentProps={mainContentProps}/>
-            <Link  href={`/filter/${category}/${fromPrice}/${toPrice}/${thisWeek}/${page}`} underline="none"> 
-                <Pagination count={pegination} page={Number(pageNumber)} onChange={(event, page)=>setPage(page)} style={{width: '40%', marginLeft:'30%', marginTop:'10px', marginBottom: '20px'}} />
-            </Link> 
-                </span>)}
+            <Pagination sum={pegination}  query={query}/>
+            </span>)}
           
         </Grid>
     </Grid>

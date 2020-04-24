@@ -4,8 +4,7 @@ import {
     AppBar, 
     Typography, 
     Toolbar,
-    IconButton,
-    Link
+    IconButton
   } from '@material-ui/core';
 import {request} from '../redux/actions/request';
 import {useDispatch} from 'react-redux';
@@ -16,6 +15,7 @@ import Register from './headerComponents/Register';
 import Loggedin from './headerComponents/Loggedin';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 export default function Header(){
   const loggedin =  useSelector(state=>state.loggedIn);
   const panelLoading =  useSelector(state=>state.loading);
@@ -47,14 +47,9 @@ export default function Header(){
 
 <AppBar position="static" color='primary'>
   <Toolbar>
-
-    <Typography variant="h4" style={{flexGrow: 1}}>
-    <Link color="inherit"  href="/" underline="none">
+    <Typography component ={Link} variant="h4" to="/" color='inherit' style={{flexGrow: 1, textDecoration: 'none'}}>
       ONLINE-MARKETPLACE
-      </Link>
     </Typography>
-  
-    
         {loggedin===true?(<Loggedin loginProps={loginProps}/>):(<Login loginProps={loginProps}/>)}
         <Register registerProps={registerProps}/>
       <IconButton

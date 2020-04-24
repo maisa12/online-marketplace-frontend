@@ -2,9 +2,9 @@ import React from 'react';
 import {
     Paper, 
     Grid, 
-    Typography,
-    Link
+    Typography
   } from '@material-ui/core';
+import {Link} from 'react-router-dom';
 export default function MainContent({mainContentProps}){
     const {ads} = mainContentProps;
 return(
@@ -19,18 +19,16 @@ return(
             <Paper  elevation={3}  style={{height: "100%"}}>
                 <Grid container spacing={1} >
                     <Grid item xs={8}  >
-                    <Link color='textPrimary' href={`/ad/${x.id}`} underline="none">
-                      <Typography variant="h6" style={{paddingLeft: "10px"}}  gutterBottom>
-                              <strong> {x.name}</strong>
-                            </Typography>
-                            </Link>
+                      <Typography  component ={Link} to={`/ad/${x.id}`}  color='textPrimary' variant="h6" style={{paddingLeft: '10px', textDecoration: 'none'}}  gutterBottom>
+                            <strong> {x.name}</strong>
+                          </Typography>
                         </Grid>
                     <Grid item xs={4}  >
                           <Typography variant="subtitle1"  style={{paddingRight: "10px"}} align="right" > <strong>{x.price} ₾</strong></Typography>
                       </Grid>
                     <Grid item  xs={12} sm={4} lg={4} md={4} style={{paddingLeft: "10px"}}>
-                      <Link color='textPrimary' href={`/ad/${x.id}`} underline="none">
-                          <img  alt={x.name} src={x.picture}  height="140" width="100%"/>
+                      <Link  to={`/ad/${x.id}`} >
+                          <img alt={x.name} src={x.picture}  height="140" width="100%"/>
                           </Link>
                       </Grid>
                     <Grid item xs={12} sm={8} lg={8} md={8}>

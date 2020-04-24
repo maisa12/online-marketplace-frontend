@@ -8,6 +8,7 @@ import {
   } from '@material-ui/core';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import {useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 export default function UserNav({userNavProps}){
     const status =  useSelector(state=>state.status);
     const { selectedIndex, handleListItemClick, handleClickOpen} = userNavProps;
@@ -31,7 +32,7 @@ return(
                         <ListItemText primary="პირადი ინფორმაცია" />
                         
                     </ListItem>
-                    {status==="admin"?( <Button color="primary" href="/adminPanel" fullWidth >
+                    {status==="admin"?(<Button  component={Link} to="/adminPanel" fullWidth >
                         ადმინ პანელში შესვლა
                     </Button>):''}  
                 </List>

@@ -10,6 +10,7 @@ import {ads, info} from './tableContent';
 import NewAd from './NewAd';
 import {categories} from '../mainComponents/mainRequests';
 import ChangeInfo from './changeInfo/ChangeInfo';
+import axios from 'axios';
 export default function UserPanel(){
     //state of adding ad's dialog
     const [open, setOpen] = useState(false);
@@ -73,14 +74,11 @@ export default function UserPanel(){
       if(x===false)  passed++;
       }
     if(passed===4){
-        await fetch(`http://localhost:8000/newAd`, {
-            method: 'POST',
+        await axios.post(`http://localhost:8000/newAd`, value, {
             headers: {
-              'Content-Type': 'application/json',
               Authorization: `JWT ${localStorage.getItem('JWT')}`
-            },
-            body: JSON.stringify(value)
-          }).then(e=>e.text()).then(e=>e==="success"?handleClose():cantAdd(e)).catch((error)=>console.log(error))
+            }
+          }).then(e=>e.data==="success"?handleClose():cantAdd(e)).catch((error)=>console.log(error))
         }
     }
   //update ad
@@ -90,15 +88,11 @@ export default function UserPanel(){
           if(x===false || x===null)  passed++;
           }
         if(passed===4){
-        await fetch(`http://localhost:8000/update/${value.id}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
+        await axios.put(`http://localhost:8000/update/${value.id}`, value, {
+            headers: {  
               Authorization: `JWT ${localStorage.getItem('JWT')}`
-            },
-            body: JSON.stringify(value)
-          }).then(e=>e.text())
-            .then(e=>e==="success"?handleClose():cantAdd(e))
+            }    
+          }).then(e=>e.data==="success"?handleClose():cantAdd(e))
             .catch((error)=>console.log(error))
         }
     }
@@ -113,13 +107,15 @@ export default function UserPanel(){
         }
     };
     const deleteItem = async (id) => {
-     await fetch(`http://localhost:8000/deleteAd/${id}`,
+     await axios.delete(`http://localhost:8000/deleteAd/${id}`,
     {
-      method:'delete',
       headers: {
         Authorization: `JWT ${localStorage.getItem('JWT')}`
       }
-    }).then(e=>console.log('deleted')).then(()=>ads(setColumns, setRows)).catch((error)=>console.log(error))
+    })
+    .then(e=>console.log('deleted'))
+    .then(()=>ads(setColumns, setRows))
+    .catch((error)=>console.log(error))
     };
     const updateInfo = async() => {
         var passed = 0;
@@ -127,15 +123,11 @@ export default function UserPanel(){
           if(x===false || x===null)  passed++;
           }
           if(passed === 4){
-            await fetch(`http://localhost:8000/updateInfo`, {
-                method: 'PUT',
+            await axios.put(`http://localhost:8000/updateInfo`, userInfo, {
                 headers: {
-                  'Content-Type': 'application/json',
                   Authorization: `JWT ${localStorage.getItem('JWT')}`
                 },
-                body: JSON.stringify(userInfo)
-              }).then(e=>e.text())
-                .then(e=>e==="Updated"?handleCloseInfo():cantAdd(e))
+              }).then(e=>e.data==="Updated"?handleCloseInfo():cantAdd(e))
                 .catch((error)=>console.log(error))
           }
     }

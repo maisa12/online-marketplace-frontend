@@ -8,6 +8,7 @@ import{
 } from '@material-ui/core';
 import { logOut } from '../../redux/actions/logOut';
 import {useDispatch, useSelector} from 'react-redux';
+import {Link as RouterLink} from 'react-router-dom';
 
 export default function Loggedin({loginProps}){
     const name =  useSelector(state=>state.name);
@@ -30,7 +31,7 @@ export default function Loggedin({loginProps}){
     <Typography  variant="button" style={{flexGrow: 1}}>
       {name}
     </Typography>
-    <MenuItem ><Link color='textPrimary' href="/panel" underline="none">პროფილი</Link></MenuItem>
+    <MenuItem ><Link component={RouterLink} color='textPrimary' to="/panel" underline="none">პროფილი</Link></MenuItem>
     <MenuItem onClick={logout}>გამოსვლა</MenuItem>
 </Menu>
     )

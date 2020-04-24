@@ -1,4 +1,5 @@
 import axios from 'axios';
+import queryString from 'query-string';
 const categories = async(setVal)=>{
     const request = await axios.get(`http://localhost:8000/category`);
     const array = request.data;
@@ -10,11 +11,15 @@ const adRequest = async(setAds)=>{
     setAds(array);
    };
 const selectCategory = async(slug, setAds, from, to, lastWeek, setPegination, pageNumber, setLoading)=>{
-    const request = await axios.get(`http://localhost:8000/ads/${slug}/${from}/${to}/${lastWeek}/${pageNumber}`);
+    setLoading(true);
+    if(from===undefined)from=0;
+    if(to===undefined)to=0;
+    let obj = {slug, from, to, lastWeek, pageNumber};
+    let query = queryString.stringify(obj);
+    const request = await axios.get(`http://localhost:8000/posts/${query}`);
     const resp = request.data;
     setAds(resp.rows);
     setPegination(Math.ceil(resp.count/10));
     setLoading(false);
-
 }
 export {categories, adRequest, selectCategory}
