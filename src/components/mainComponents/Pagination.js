@@ -9,26 +9,25 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import Grid from '@material-ui/core/Grid';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 export default function Pagination({sum, query}){
-    const {category, fromPrice, toPrice, thisWeek, pageNumber} = queryString.parse(query);
+    const {category, fromPrice, toPrice, thisWeek, pageNumber, postName} = queryString.parse(query);
     let page = Number(pageNumber);
     var before = false;
     var next = false;
     if(page===1)before=true;
-    if(page===sum)next=true;
-    const nextLink = queryString.stringify({category, fromPrice, toPrice, thisWeek, pageNumber: page+1});
-    const beforeLink = queryString.stringify({category, fromPrice, toPrice, thisWeek, pageNumber: page-1});
+    if(page===sum || sum===0)next=true;
+    const nextLink = queryString.stringify({category, fromPrice, toPrice, thisWeek, postName, pageNumber: page+1}, {skipNull: true});
+    const beforeLink = queryString.stringify({category, fromPrice, toPrice, thisWeek, postName, pageNumber: page-1}, {skipNull: true});
     const arr = (currentPage, pageSum) =>{
         let array =[];
+        let item;
             if(pageSum<=5){
                 for(let i=1; i<=pageSum; i++){
-                    let clicked = false;
-                    if(i===currentPage) clicked=true;
-                    var item = {value: i, clicked: i===currentPage?true:false};
+                     item = {value: i, clicked: i===currentPage?true:false};
                     array.push(item)
                 }
             }else if(currentPage<5){
                 for(let i=1; i<=4; i++){
-                    var item = {value: i, clicked: i===currentPage?true:false};
+                    item = {value: i, clicked: i===currentPage?true:false};
                     array.push(item)
                 }
                 array.push({value:"dotsE", clicked: false});
@@ -38,7 +37,7 @@ export default function Pagination({sum, query}){
                 array.push({value: 1, clicked: false});
                 array.push({value:"dotsS", clicked: false});
                 for(let i=pageSum-3; i<=pageSum; i++){
-                    var item = {value: i, clicked: i===currentPage?true:false};
+                    item = {value: i, clicked: i===currentPage?true:false};
                     array.push(item)
                 }
              }
@@ -64,15 +63,14 @@ export default function Pagination({sum, query}){
 
                 <Button  component={Link} to={`/posts/${beforeLink}`} disabled={before}><NavigateBeforeIcon/></Button>
                 {arr(page, sum).map(x=>{
-                   
                     if(typeof x.value==="number" && x.clicked===false){
-                        const pagenationLink = queryString.stringify({category, fromPrice, toPrice, thisWeek, pageNumber: x.value});
+                        const pagenationLink = queryString.stringify({category, fromPrice, toPrice, thisWeek, postName, pageNumber: x.value});
                         return (
                             <Button key={x.value} component={Link} to={`/posts/${pagenationLink}`}>{x.value}</Button>
                         )
                     }
                     if(x.clicked===true){
-                        const pagenationLink = queryString.stringify({category, fromPrice, toPrice, thisWeek, pageNumber: x.value});
+                        const pagenationLink = queryString.stringify({category, fromPrice, toPrice, thisWeek, postName, pageNumber: x.value});
                         return(
                         <Button key={x.value}  variant="contained"  component={Link} to={`/posts/${pagenationLink}`}>{x.value}</Button>
                         )

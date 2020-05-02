@@ -15,16 +15,10 @@ function App() {
       <Router>
       <Header />
         <Switch>
-          <Route path="/" exact >
-            <Home/>
-          </Route>
-          <Route path="/panel" exact >
-            <Panel />
-          </Route>
-          <Route path="/adminPanel" exact >
-            <Admin />
-          </Route>
-          <Route path="/posts/:query" exact component={Filter}/>
+          <Route path="/" exact component={Home} />
+          <Route path="/panel" exact  component={Panel} />
+          <Route path="/adminPanel" exact component={Admin} />
+          <Route path="/posts/:query" exact component={Filter} />
           <Route path="/ad/:adId" exact component={AdPage}/>
         </Switch>
       </Router>

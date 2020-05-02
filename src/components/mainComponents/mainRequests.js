@@ -10,16 +10,16 @@ const adRequest = async(setAds)=>{
     const array = request.data;
     setAds(array);
    };
-const selectCategory = async(slug, setAds, from, to, lastWeek, setPegination, pageNumber, setLoading)=>{
+const selectCategory = async(slug, setAds, from, to, lastWeek, setPagination, pageNumber, setLoading, postName)=>{
     setLoading(true);
     if(from===undefined)from=0;
     if(to===undefined)to=0;
-    let obj = {slug, from, to, lastWeek, pageNumber};
+    let obj = {slug, from, to, lastWeek, pageNumber, postName};
     let query = queryString.stringify(obj);
     const request = await axios.get(`http://localhost:8000/posts/${query}`);
     const resp = request.data;
     setAds(resp.rows);
-    setPegination(Math.ceil(resp.count/10));
+    setPagination(Math.ceil(resp.count/10));
     setLoading(false);
 }
 export {categories, adRequest, selectCategory}

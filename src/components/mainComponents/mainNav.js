@@ -14,8 +14,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import queryString from 'query-string';
 export default function MainNav({mainNavProps}){ 
-    const{selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, disabled, selected} = mainNavProps;
-    const query = queryString.stringify({category: selected, fromPrice: from, toPrice: to, thisWeek: lastWeek, pageNumber: 1}, {skipEmptyString: true});
+    const{postName, selectedIndex, handleListItemClick, from, setFrom, to, setTo, lastWeek, handleCheckBox, cat, selected} = mainNavProps;
+    const query = queryString.stringify({postName, category: selected, fromPrice: from, toPrice: to, thisWeek: lastWeek, pageNumber: 1}, {skipEmptyString: true});
     return(
         <Paper >
         <Grid container spacing={0} justify="center" direction="row"  alignItems="baseline">
@@ -75,7 +75,6 @@ export default function MainNav({mainNavProps}){
         
           <Button variant="contained" 
                   component={Link}
-                  disabled={disabled}
                   color="primary" 
                   to={`/posts/${query}`}
                   fullWidth>

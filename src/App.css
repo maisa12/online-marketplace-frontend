@@ -2,3 +2,35 @@
 .MuiMenu-paper{
     padding: 10px;
 }
+.search-input{
+    font-family: "ALK Sanet", sans-serif;
+    border-radius: 5px;
+    border: 1px solid #1b5e20;
+    outline: none;
+    height: 25px;
+    margin-left: 20px;
+    padding-left: 5px;
+    transition-duration: 0.4s;
+    padding-right: 33px;
+}
+.search-button{
+    position: absolute;
+    top: 1px;
+    left: 198px;
+    font-family: "ALK Rex Bold", sans-serif;
+    height: 27px;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    border: thin;
+    border-right: 1px solid #1b5e20;
+    background-color: whitesmoke;
+    color: #1b5e20;
+    transition-duration: 0.4s;
+    outline: none;
+    
+}
+.search-button:hover{
+    background-color:#1b5e20; 
+    color: whitesmoke;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
